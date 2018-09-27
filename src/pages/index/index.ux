@@ -1,0 +1,103 @@
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="demo-page">
+    <text class="title">欢迎打开{{title}}</text>
+    <text>{{aaa}}</text>
+    <!-- 点击跳转详情页 -->
+    <div class="tutorial-page">
+      <!-- div组件模拟选项卡功能 -->
+      <div class="div-tabs">
+        <!-- tabs的head部分 -->
+        <div class="div-tabbar">
+          <text onclick="switchTab(1)">menu1</text>
+          <text onclick="switchTab(2)">menu2</text>
+          <text onclick="switchTab(3)">menu3</text>
+        </div>
+        <!-- tabs的body部分 -->
+        <div class="div-tabcontent">
+          <div class="div-tabcontent-section" show="{{pageIndex === 1}}">
+            <text>content1</text>
+            <input class="btn" type="button" value="跳转到详情页" onclick="goPage(1)" />
+
+          </div>
+          <div class="div-tabcontent-section" show="{{pageIndex === 2}}">
+            <text>content2</text>
+            <input class="btn" type="button" value="跳转到详情页" onclick="goPage(2)" />
+
+          </div>
+          <div class="div-tabcontent-section" show="{{pageIndex === 3}}">
+            <text>content3</text>
+            <input class="btn" type="button" value="跳转到详情页" onclick="goPage(3)" />
+
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  </div>
+</template>
+
+<style lang="less">
+  .demo-page {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 40px;
+    text-align: center;
+  }
+
+  .btn {
+    width: 550px;
+    height: 86px;
+    margin-top: 75px;
+    border-radius: 43px;
+    background-color: #09ba07;
+    font-size: 30px;
+    color: #ffffff;
+  }
+
+  .tutorial-page {
+    flex: 1;
+    flex-direction: column;
+    .div-tabs {
+      flex: 1;
+      flex-direction: column;
+      .div-tabbar {
+        height: 100px;
+        text {
+          margin: 10px;
+          flex-grow: 1;
+          text-align: center;
+          border: 1px solid #eeeeee;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  import router from '@system.router'
+
+  export default {
+    // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
+    private: {
+      title: '示例页面',
+      pageIndex: 1,
+      aaa:"其他内容"
+    },
+    goPage(a) {
+      // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由
+      //必须从pages开始
+      router.push ({
+        uri: '/pages/page'+ a
+      })
+    },
+    switchTab(a) {
+      // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由
+      this.pageIndex = a;
+    }
+  }
+</script>

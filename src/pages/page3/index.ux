@@ -1,0 +1,44 @@
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="demo-page">
+    <text class="title">{{text}}</text>
+  </div>
+</template>
+
+<style>
+  .demo-page {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 40px;
+    text-align: center;
+  }
+</style>
+
+<script>
+  export default {
+    private: {
+      text: '欢迎打开page3'
+    },
+    /**
+     * 当用户点击菜单按钮时触发，调用app中定义的方法showMenu
+     * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
+     */
+    onMenuPress() {
+      //this.$app.$def.showMenu()
+    }
+  }
+  /*
+说了几个小程序的情况 
+
+微信小程序发行两年多，各种BUG很少见，并且开发体验不断提升，发版也不觉快，2~3天就一个小版本
+阿里小程序的模板与微信几乎一致，但API有点不一样，需要做兼容，几天发一次版本
+百度小程序的模板有严重BUG，导致我们目前的组件机制进行不下去，虽然那边说在努力修复，由于组件无法测试
+其API也没法测，差不多1星期1次版本
+快应用是9个公司的合众之物，目前我们找到小米的人来帮忙，但里面的差异太大了，与上面三者不是一个流派，并且有一些边缘BUG只有问他们只能搞定
+他们发版速度也非常慢，说2个月才发一次版本
+*/
+</script>

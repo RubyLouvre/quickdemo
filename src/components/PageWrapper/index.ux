@@ -1,0 +1,43 @@
+<template>
+    <refresh refreshing="{{refreshing}}" @refresh="refresh">
+      <list @scroll="onPageScroll" @scrollbottom="onReachBottom" @scrolltop="scrolltop">
+      <list-item type="foo" style="flex-direction: column;">
+         <slot></slot>
+          <div for="{{list}}">
+            <text>{{$item}}</text>
+          </div>
+      </list-item>
+    </list>
+    </refresh>
+  </template>
+  
+  <script>
+  import prompt from '@system.prompt';
+  
+  export default {
+    private: {
+      refreshing: false,
+      list: [111,222,333]  // Array.apply(null, { length: 100 }).map(Math.random)
+    },
+    onReachBottom() {
+      prompt.showToast({ message: 'reach bottom' });
+    },
+    scrolltop() {
+      prompt.showToast({ message: 'reach top' });
+    },
+    onPageScroll(e){
+       console.log(e)
+    },
+    onInit(){
+      console.log("onInit")
+      this.list = Array.apply(null, { length: 100 }).map(Math.random)
+      this.refreshing = false
+    },
+    refresh() {
+      this.list = Array.apply(null, { length: 100 }).map(Math.random);
+      this.refreshing = new Boolean(true);//必须这样写
+      prompt.showToast({ message: 'refreshed' });
+      this.refreshing = new Boolean(false);//必须这样写
+    }
+  };
+  </script>

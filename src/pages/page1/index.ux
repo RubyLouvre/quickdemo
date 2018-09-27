@@ -1,0 +1,52 @@
+<import name='Dog' src='../../components/Dog/index'></import>
+
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="demo-page">
+    <text class="title">{{text}}</text>
+    <Dog props="{{props}}"></Dog>
+    <text>xxxxx</text>
+  </div>
+</template>
+
+<style>
+  .demo-page {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 40px;
+    text-align: center;
+  }
+</style>
+
+<script>
+  import { showMenu } from "../../util"
+  import prompt from '@system.prompt'
+  export default {
+    private: {
+      text: '欢迎打开page1',
+      props: {
+        name: "传进来",
+        age: 10
+      }
+    },
+    onReady() {
+      prompt.showToast({
+        message: JSON.stringify(this.$page),
+        duration: 1
+      })
+      console.log(this.$page, this)
+    },
+    /**
+     * 当用户点击右上角菜单按钮时触发，调用app中定义的方法showMenu
+     * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
+     */
+    onMenuPress() {
+      showMenu()
+      //this.$app.$def.showMenu()
+    }
+  }
+</script>

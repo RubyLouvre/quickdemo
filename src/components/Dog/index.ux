@@ -1,0 +1,45 @@
+<template>
+  <div>
+    <text>dog</text><text>{{props.name}}</text> <text>{{props.age}}</text>
+  </div>
+</template>
+
+
+<script>
+  export default {
+    props: {
+      props: Object,
+      context:  Object,
+    },
+
+    onInit(){
+      //console.log(JSON.stringify(this.props))
+      console.log("dog init")
+    //  this.props = React.xxx.props
+      //-----
+    },
+    onReady(){
+    //----
+      console.log("dog ready")
+      this.context = 222
+      this.props.age = 244
+
+    },
+    
+    onShow(){
+      console.log("dog show")
+    },
+    onHide(){
+      console.log("dog hide")
+    },
+    onDestroy(){
+      console.log("dog destroy")
+    },
+    // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
+    private: {
+      props: {},
+      state: {}
+    },
+    
+  }
+</script>
