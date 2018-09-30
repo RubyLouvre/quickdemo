@@ -383,7 +383,6 @@ exports.default = {
       message: JSON.stringify(this.$page),
       duration: 1
     });
-    console.log(this.$page, this);
   },
   onMenuPress: function onMenuPress() {
     (0, _util.showMenu)();

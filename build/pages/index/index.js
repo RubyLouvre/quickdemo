@@ -449,6 +449,9 @@ exports.default = {
   },
   switchTab: function switchTab(a) {
     this.pageIndex = a;
+    _system2.default.push({
+      uri: '/pages/page' + a
+    });
   }
 };
 

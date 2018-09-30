@@ -38,7 +38,7 @@
         message: JSON.stringify(this.$page),
         duration: 1
       })
-      console.log(this.$page, this)
+     
     },
     /**
      * 当用户点击右上角菜单按钮时触发，调用app中定义的方法showMenu

@@ -244,10 +244,9 @@ exports.default = {
   onReachBottom: function onReachBottom() {
     _system2.default.showToast({ message: 'reach bottom' });
   },
-  onPageScroll: function onPageScroll(e) {
-    console.log(e);
-  },
+  onPageScroll: function onPageScroll(e) {},
   onInit: function onInit() {
+    console.log(this);
     this.tabBar = {
       backgroundColor: "#f9faf5",
       color: "#000",
@@ -255,8 +254,7 @@ exports.default = {
 
       list: [{ text: "aaa" }, { text: "cccc" }, { text: "dddd" }]
     };
-    this.selectedIndex = 0, console.log("onInit");
-    this.list = Array.apply(null, { length: 100 }).map(Math.random);
+    this.selectedIndex = 0, this.list = Array.apply(null, { length: 100 }).map(Math.random);
   },
   onSelected: function onSelected(index) {
     this.selectedIndex = index;
@@ -373,43 +371,15 @@ if (moduleOwn.data && accessors.some(function (acc) {
 module.exports = {
   ".pagewrap": {
     "flex": 1,
-    "flexDirection": "column"
-  },
-  ".tabBar .tab": {
-    "flex": 1,
-    "marginTop": "10px",
-    "marginRight": "10px",
-    "marginBottom": "10px",
-    "marginLeft": "10px",
-    "flexDirection": "row",
-    "_meta": {
-      "ruleDef": [
-        {
-          "t": "a",
-          "n": "class",
-          "i": false,
-          "a": "element",
-          "v": "tabBar"
-        },
-        {
-          "t": "d"
-        },
-        {
-          "t": "a",
-          "n": "class",
-          "i": false,
-          "a": "element",
-          "v": "tab"
-        }
-      ]
-    }
+    "flexDirection": "column",
+    "width": "100%"
   },
   ".tabBar .tab text": {
     "marginTop": "10px",
     "marginRight": "10px",
     "marginBottom": "10px",
     "marginLeft": "10px",
-    "flexGrow": 1,
+    "width": "300px",
     "textAlign": "center",
     "borderTopWidth": "1px",
     "borderRightWidth": "1px",

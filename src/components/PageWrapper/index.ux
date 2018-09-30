@@ -24,17 +24,20 @@
     flex: 1;
    
     flex-direction: column;
+    width: 100%;
   }
 
-  .tabBar .tab {
-    flex: 1;
+  .tabBar div.tab {
+    flex: 2;
     margin: 10px;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+   
   }
   .tabBar .tab text{
      margin: 10px;
-     flex-grow: 1;
+     display:inline-block;
+     width: 300px;
      text-align: center;
      border: 1px solid #eeeeee;
   }
@@ -67,9 +70,10 @@
       prompt.showToast({ message: 'reach bottom' });
     },
     onPageScroll(e) {
-      console.log(e)
+     // console.log(e)
     },
     onInit() {
+      console.log(this)
       this.tabBar = {
         backgroundColor: "#f9faf5",
         color: "#000",
@@ -82,7 +86,7 @@
         ]
       }
       this.selectedIndex = 0,
-        console.log("onInit")
+      
       this.list = Array.apply(null, { length: 100 }).map(Math.random)
     },
     onSelected(index) {

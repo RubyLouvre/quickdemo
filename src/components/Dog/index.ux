@@ -15,15 +15,13 @@
     onInit(){
       //console.log(JSON.stringify(this.props))
       console.log("dog init")
-    //  this.props = React.xxx.props
-      //-----
+      // this.props = React.xxx.props
     },
     onReady(){
     //----
       console.log("dog ready")
       this.context = 222
       this.props.age = 244
-
     },
     
     onShow(){
