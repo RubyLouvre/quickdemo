@@ -71,10 +71,10 @@
 /***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(26)
-var $app_template$ = __webpack_require__(19)
-var $app_style$ = __webpack_require__(20)
-var $app_script$ = __webpack_require__(21)
+__webpack_require__(19)
+var $app_template$ = __webpack_require__(22)
+var $app_style$ = __webpack_require__(23)
+var $app_script$ = __webpack_require__(24)
 
 $app_define$('@app-component/index', [], function($app_require$, $app_exports$, $app_module$){
      $app_script$($app_module$, $app_exports$, $app_require$)
@@ -91,6 +91,192 @@ $app_bootstrap$('@app-component/index',{ packagerVersion: '0.0.5'})
 /***/ }),
 
 /***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+var $app_template$ = __webpack_require__(20)
+var $app_style$ = __webpack_require__(32)
+var $app_script$ = __webpack_require__(21)
+
+$app_define$('@app-component/pagewrapper', [], function($app_require$, $app_exports$, $app_module$){
+     $app_script$($app_module$, $app_exports$, $app_require$)
+     if ($app_exports$.__esModule && $app_exports$.default) {
+            $app_module$.exports = $app_exports$.default
+        }
+     $app_module$.exports.template = $app_template$
+     $app_module$.exports.style = $app_style$
+})
+
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = {
+  "type": "div",
+  "attr": {},
+  "classList": [
+    "pagewrap"
+  ],
+  "children": [
+    {
+      "type": "refresh",
+      "attr": {
+        "refreshing": function () {return this.refreshing}
+      },
+      "events": {
+        "refresh": "onPullDownRefresh"
+      },
+      "children": [
+        {
+          "type": "list",
+          "attr": {},
+          "events": {
+            "scroll": "onPageScroll",
+            "scrollbottom": "onReachBottom"
+          },
+          "children": [
+            {
+              "type": "list-item",
+              "attr": {
+                "type": "foo"
+              },
+              "style": {
+                "flexDirection": "column"
+              },
+              "children": [
+                {
+                  "type": "slot",
+                  "attr": {}
+                },
+                {
+                  "type": "div",
+                  "attr": {},
+                  "repeat": function () {return this.list},
+                  "children": [
+                    {
+                      "type": "text",
+                      "attr": {
+                        "value": function () {return this.$item}
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "div",
+      "attr": {},
+      "shown": function () {return this.tabBar&&this.tabBar.list&&this.tabBar.list.length},
+      "style": {
+        "height": "100px",
+        "backgroundColor": function () {return this.tabBar.backgroundColor}
+      },
+      "children": [
+        {
+          "type": "div",
+          "attr": {},
+          "classList": [
+            "tab"
+          ],
+          "repeat": {
+            "exp": function () {return this.tabBar.list},
+            "key": "index",
+            "value": "item"
+          },
+          "events": {
+            "click": function (evt) {this.onSelected(this.index,evt)}
+          },
+          "children": [
+            {
+              "type": "text",
+              "attr": {
+                "value": function () {return this.item.text}
+              },
+              "style": {
+                "color": function () {return this.selectedIndex===this.index?this.tabBar.selectedColor:this.tabBar.color}
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports) {
+
+module.exports = function(module, exports, $app_require$){"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _system = $app_require$("@app-module/system.prompt");
+
+var _system2 = _interopRequireDefault(_system);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  props: {
+    list: Array,
+    tabBar: Object,
+    selectedIndex: Number,
+    refreshing: Boolean
+  },
+  private: {
+    refreshing: false,
+    tabBar: {
+      list: [{ text: "aaa" }, { text: "cccc" }, { text: "dddd" }],
+      color: "#000",
+      backgroundColor: "#f9faf5",
+      selectedColor: "blue"
+    },
+    list: [111, 222, 333] },
+  onReachBottom: function onReachBottom() {
+    _system2.default.showToast({ message: 'reach bottom' });
+  },
+  onPageScroll: function onPageScroll(e) {
+    console.log(e);
+  },
+  onInit: function onInit() {
+    this.tabBar = {
+      backgroundColor: "#f9faf5",
+      color: "#000",
+      selectedColor: "blue",
+
+      list: [{ text: "aaa" }, { text: "cccc" }, { text: "dddd" }]
+    };
+    this.selectedIndex = 0, console.log("onInit");
+    this.list = Array.apply(null, { length: 100 }).map(Math.random);
+  },
+  onSelected: function onSelected(index) {
+    this.selectedIndex = index;
+  },
+  onPullDownRefresh: function onPullDownRefresh() {
+    var _this = this;
+
+    this.list = Array.apply(null, { length: 100 }).map(Math.random);
+    _system2.default.showToast({ message: 'refreshed' });
+    this.refreshing = true;
+    setTimeout(function () {
+
+      _this.refreshing = false;
+    });
+  }
+};}
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -120,7 +306,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 20:
+/***/ 23:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -137,7 +323,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 21:
+/***/ 24:
 /***/ (function(module, exports) {
 
 module.exports = function(module, exports, $app_require$){'use strict';
@@ -181,119 +367,89 @@ if (moduleOwn.data && accessors.some(function (acc) {
 
 /***/ }),
 
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-var $app_template$ = __webpack_require__(27)
-var $app_script$ = __webpack_require__(28)
-
-$app_define$('@app-component/pagewrapper', [], function($app_require$, $app_exports$, $app_module$){
-     $app_script$($app_module$, $app_exports$, $app_require$)
-     if ($app_exports$.__esModule && $app_exports$.default) {
-            $app_module$.exports = $app_exports$.default
-        }
-     $app_module$.exports.template = $app_template$
-})
-
-
-/***/ }),
-
-/***/ 27:
+/***/ 32:
 /***/ (function(module, exports) {
 
 module.exports = {
-  "type": "refresh",
-  "attr": {
-    "refreshing": function () {return this.refreshing}
+  ".pagewrap": {
+    "flex": 1,
+    "flexDirection": "column"
   },
-  "events": {
-    "refresh": "refresh"
-  },
-  "children": [
-    {
-      "type": "list",
-      "attr": {},
-      "events": {
-        "scroll": "onPageScroll",
-        "scrollbottom": "onReachBottom",
-        "scrolltop": "scrolltop"
-      },
-      "children": [
+  ".tabBar .tab": {
+    "flex": 1,
+    "marginTop": "10px",
+    "marginRight": "10px",
+    "marginBottom": "10px",
+    "marginLeft": "10px",
+    "flexDirection": "row",
+    "_meta": {
+      "ruleDef": [
         {
-          "type": "list-item",
-          "attr": {
-            "type": "foo"
-          },
-          "style": {
-            "flexDirection": "column"
-          },
-          "children": [
-            {
-              "type": "slot",
-              "attr": {}
-            },
-            {
-              "type": "div",
-              "attr": {},
-              "repeat": function () {return this.list},
-              "children": [
-                {
-                  "type": "text",
-                  "attr": {
-                    "value": function () {return this.$item}
-                  }
-                }
-              ]
-            }
-          ]
+          "t": "a",
+          "n": "class",
+          "i": false,
+          "a": "element",
+          "v": "tabBar"
+        },
+        {
+          "t": "d"
+        },
+        {
+          "t": "a",
+          "n": "class",
+          "i": false,
+          "a": "element",
+          "v": "tab"
         }
       ]
     }
-  ]
-}
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, exports) {
-
-module.exports = function(module, exports, $app_require$){'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _system = $app_require$('@app-module/system.prompt');
-
-var _system2 = _interopRequireDefault(_system);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  private: {
-    refreshing: false,
-    list: [111, 222, 333] },
-  onReachBottom: function onReachBottom() {
-    _system2.default.showToast({ message: 'reach bottom' });
   },
-  scrolltop: function scrolltop() {
-    _system2.default.showToast({ message: 'reach top' });
-  },
-  onPageScroll: function onPageScroll(e) {
-    console.log(e);
-  },
-  onInit: function onInit() {
-    console.log("onInit");
-    this.list = Array.apply(null, { length: 100 }).map(Math.random);
-    this.refreshing = false;
-  },
-  refresh: function refresh() {
-    this.list = Array.apply(null, { length: 100 }).map(Math.random);
-    this.refreshing = new Boolean(true);
-    _system2.default.showToast({ message: 'refreshed' });
-    this.refreshing = new Boolean(false);
+  ".tabBar .tab text": {
+    "marginTop": "10px",
+    "marginRight": "10px",
+    "marginBottom": "10px",
+    "marginLeft": "10px",
+    "flexGrow": 1,
+    "textAlign": "center",
+    "borderTopWidth": "1px",
+    "borderRightWidth": "1px",
+    "borderBottomWidth": "1px",
+    "borderLeftWidth": "1px",
+    "borderStyle": "solid",
+    "borderTopColor": "#eeeeee",
+    "borderRightColor": "#eeeeee",
+    "borderBottomColor": "#eeeeee",
+    "borderLeftColor": "#eeeeee",
+    "_meta": {
+      "ruleDef": [
+        {
+          "t": "a",
+          "n": "class",
+          "i": false,
+          "a": "element",
+          "v": "tabBar"
+        },
+        {
+          "t": "d"
+        },
+        {
+          "t": "a",
+          "n": "class",
+          "i": false,
+          "a": "element",
+          "v": "tab"
+        },
+        {
+          "t": "d"
+        },
+        {
+          "t": "t",
+          "n": "text"
+        }
+      ]
+    }
   }
-};}
+}
 
 /***/ })
 
