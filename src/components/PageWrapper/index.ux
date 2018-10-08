@@ -11,7 +11,7 @@
       </list>
 
     </refresh>
-    <div if="{{tabBar && tabBar.list && tabBar.list.length}}" style="width:100%;height: 100px;background-color:{{tabBar.backgroundColor}}">
+    <div class="tabBar" if="{{tabBar && tabBar.list && tabBar.list.length}}" style="background-color:{{tabBar.backgroundColor}}">
       <div class="tab" for="(index, item) in tabBar.list" onclick="onSelected(index)">
         <text style="color:{{ selectedIndex === index ? tabBar.selectedColor: tabBar.color }}">{{item.text}}</text>
       </div>
@@ -23,15 +23,17 @@
   .pagewrap {
     display: flex;
     flex: 1;
-   
     flex-direction: column;
     width: 100%;
   }
 
+  .tabBar{
+     width: 100%;
+     height: 100px;
+  } 
   .tabBar .tab {
     flex: 1;
     margin: 10px;
-    width: 300px;
     flex-direction: row;
     justify-content: center;
   }
@@ -40,7 +42,7 @@
      margin: 10px;
      display:flex;
      flex: 1;
-     text-align: center;
+     justify-content: center;
      border: 1px solid #eeeeee;
   }
 </style>
