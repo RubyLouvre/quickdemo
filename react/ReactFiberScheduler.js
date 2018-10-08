@@ -16,11 +16,7 @@ import {
 	Incomplete,
 	HostEffectMask,
 } from 'shared/ReactSideEffectTags';
-import {
-	HostRoot,
-	ClassComponent,
-	ClassComponentLazy
-} from 'shared/ReactWorkTags';
+import { HostRoot, ClassComponent, ClassComponentLazy } from 'shared/ReactWorkTags';
 import {
 	enableSchedulerTracing,
 	enableProfilerTimer,
@@ -145,7 +141,6 @@ let legacyErrorBoundariesThatAlreadyFailed = null;
 
 // Used for performance tracking.
 let interruptedBy = null;
-
 
 function resetStack() {
 	if (nextUnitOfWork !== null) {
@@ -298,7 +293,7 @@ function commitRoot(root, finishedWork) {
 			: updateExpirationTimeBeforeCommit;
 	markCommittedPriorityLevels(root, earliestRemainingTimeBeforeCommit);
 
-	let prevInteractions = null
+	let prevInteractions = null;
 	if (enableSchedulerTracing) {
 		// Restore any pending interactions at this point,
 		// So that cascading work triggered during the render phase will be accounted for.
@@ -334,20 +329,14 @@ function commitRoot(root, finishedWork) {
 	while (nextEffect !== null) {
 		let didError = false;
 		let error;
-		if (__DEV__) {
-			invokeGuardedCallback(null, commitBeforeMutationLifecycles, null);
-			if (hasCaughtError()) {
-				didError = true;
-				error = clearCaughtError();
-			}
-		} else {
-			try {
-				commitBeforeMutationLifecycles();
-			} catch (e) {
-				didError = true;
-				error = e;
-			}
+
+		try {
+			commitBeforeMutationLifecycles();
+		} catch (e) {
+			didError = true;
+			error = e;
 		}
+
 		if (didError) {
 			invariant(
 				nextEffect !== null,
@@ -376,20 +365,14 @@ function commitRoot(root, finishedWork) {
 	while (nextEffect !== null) {
 		let didError = false;
 		let error;
-		if (__DEV__) {
-			invokeGuardedCallback(null, commitAllHostEffects, null);
-			if (hasCaughtError()) {
-				didError = true;
-				error = clearCaughtError();
-			}
-		} else {
-			try {
-				commitAllHostEffects();
-			} catch (e) {
-				didError = true;
-				error = e;
-			}
+
+		try {
+			commitAllHostEffects();
+		} catch (e) {
+			didError = true;
+			error = e;
 		}
+
 		if (didError) {
 			invariant(
 				nextEffect !== null,
@@ -421,20 +404,14 @@ function commitRoot(root, finishedWork) {
 	while (nextEffect !== null) {
 		let didError = false;
 		let error;
-		if (__DEV__) {
-			invokeGuardedCallback(null, commitAllLifeCycles, null, root, committedExpirationTime);
-			if (hasCaughtError()) {
-				didError = true;
-				error = clearCaughtError();
-			}
-		} else {
-			try {
-				commitAllLifeCycles(root, committedExpirationTime);
-			} catch (e) {
-				didError = true;
-				error = e;
-			}
+
+		try {
+			commitAllLifeCycles(root, committedExpirationTime);
+		} catch (e) {
+			didError = true;
+			error = e;
 		}
+
 		if (didError) {
 			captureCommitPhaseError(nextEffect, error);
 			if (nextEffect !== null) {
@@ -448,7 +425,6 @@ function commitRoot(root, finishedWork) {
 	stopCommitLifeCyclesTimer();
 	stopCommitTimer();
 	onCommitRoot(finishedWork.stateNode);
-
 
 	const updateExpirationTimeAfterCommit = finishedWork.expirationTime;
 	const childExpirationTimeAfterCommit = finishedWork.childExpirationTime;
@@ -593,7 +569,7 @@ function resetChildExpirationTime(workInProgress, renderTime) {
 	workInProgress.childExpirationTime = newChildExpirationTime;
 }
 
-function completeUnitOfWork(workInProgress){
+function completeUnitOfWork(workInProgress) {
 	// Attempt to complete the current unit of work, then move to the
 	// next sibling. If there are no more siblings, return to the
 	// parent fiber.
@@ -603,7 +579,6 @@ function completeUnitOfWork(workInProgress){
 		// means that we don't need an additional field on the work in
 		// progress.
 		const current = workInProgress.alternate;
-		
 
 		const returnFiber = workInProgress.return;
 		const siblingFiber = workInProgress.sibling;
@@ -626,7 +601,6 @@ function completeUnitOfWork(workInProgress){
 			}
 			stopWorkTimer(workInProgress);
 			resetChildExpirationTime(workInProgress, nextRenderExpirationTime);
-			
 
 			if (
 				returnFiber !== null &&
@@ -665,7 +639,6 @@ function completeUnitOfWork(workInProgress){
 				}
 			}
 
-
 			if (siblingFiber !== null) {
 				// If there is more work to do in this returnFiber, do that next.
 				return siblingFiber;
@@ -695,15 +668,11 @@ function completeUnitOfWork(workInProgress){
 				stopWorkTimer(workInProgress);
 			}
 
-			if (__DEV__) {
-				ReactCurrentFiber.resetCurrentFiber();
-			}
+		
 
 			if (next !== null) {
 				stopWorkTimer(workInProgress);
-				if (__DEV__ && ReactFiberInstrumentation.debugTool) {
-					ReactFiberInstrumentation.debugTool.onCompleteWork(workInProgress);
-				}
+				
 
 				if (enableProfilerTimer) {
 					// Include the time spent working on failed children before continuing.
@@ -732,10 +701,6 @@ function completeUnitOfWork(workInProgress){
 				returnFiber.effectTag |= Incomplete;
 			}
 
-			if (__DEV__ && ReactFiberInstrumentation.debugTool) {
-				ReactFiberInstrumentation.debugTool.onCompleteWork(workInProgress);
-			}
-
 			if (siblingFiber !== null) {
 				// If there is more work to do in this returnFiber, do that next.
 				return siblingFiber;
@@ -755,7 +720,7 @@ function completeUnitOfWork(workInProgress){
 	return null;
 }
 
-function performUnitOfWork(workInProgress)  {
+function performUnitOfWork(workInProgress) {
 	// The current, flushed, state of this fiber is the alternate.
 	// Ideally nothing should rely on this, but relying on it here
 	// means that we don't need an additional field on the work in
@@ -764,7 +729,6 @@ function performUnitOfWork(workInProgress)  {
 
 	// See if beginning this work spawns more work.
 	startWorkTimer(workInProgress);
-	
 
 	let next;
 	if (enableProfilerTimer) {
@@ -782,7 +746,6 @@ function performUnitOfWork(workInProgress)  {
 		next = beginWork(current, workInProgress, nextRenderExpirationTime);
 	}
 
-	
 	if (next === null) {
 		// If this doesn't spawn new work, complete the current work.
 		next = completeUnitOfWork(workInProgress);
@@ -808,7 +771,6 @@ function workLoop(isYieldy) {
 }
 
 function renderRoot(root, isYieldy, isExpired) {
-	
 	isWorking = true;
 	ReactCurrentOwner.currentDispatcher = Dispatcher;
 
@@ -861,7 +823,7 @@ function renderRoot(root, isYieldy, isExpired) {
 		}
 	}
 
-	let prevInteractions = null
+	let prevInteractions = null;
 	if (enableSchedulerTracing) {
 		// We're about to start new traced work.
 		// Restore pending interactions so cascading work triggered during the render phase will be accounted for.
@@ -882,8 +844,6 @@ function renderRoot(root, isYieldy, isExpired) {
 				didFatal = true;
 				onUncaughtError(thrownValue);
 			} else {
-				
-			
 				const sourceFiber = nextUnitOfWork;
 				let returnFiber = sourceFiber.return;
 				if (returnFiber === null) {
@@ -921,7 +881,7 @@ function renderRoot(root, isYieldy, isExpired) {
 		stopWorkLoopTimer(interruptedBy, didCompleteRoot);
 		interruptedBy = null;
 		// There was a fatal error.
-		
+
 		// `nextRoot` points to the in-progress root. A non-null value indicates
 		// that we're in the middle of an async render. Set it to null to indicate
 		// there's no more work to be done in the current batch.
@@ -946,7 +906,7 @@ function renderRoot(root, isYieldy, isExpired) {
 	const didCompleteRoot = true;
 	stopWorkLoopTimer(interruptedBy, didCompleteRoot);
 	const rootWorkInProgress = root.current.alternate;
-	
+
 	// `nextRoot` points to the in-progress root. A non-null value indicates
 	// that we're in the middle of an async render. Set it to null to indicate
 	// there's no more work to be done in the current batch.
@@ -1028,7 +988,6 @@ function renderRoot(root, isYieldy, isExpired) {
 }
 
 function dispatch(sourceFiber, value, expirationTime) {
-
 	let fiber = sourceFiber.return;
 	while (fiber !== null) {
 		switch (fiber.tag) {
@@ -1311,7 +1270,7 @@ function deferredUpdates(fn) {
 	}
 }
 
-function syncUpdates(fn,a,b,c,d) {
+function syncUpdates(fn, a, b, c, d) {
 	const previousExpirationContext = expirationContext;
 	expirationContext = Sync;
 	try {
@@ -1325,8 +1284,8 @@ function syncUpdates(fn,a,b,c,d) {
 // renderers. I'll do this in a follow-up.
 
 // Linked-list of roots
-let firstScheduledRoot  = null;
-let lastScheduledRoot  = null;
+let firstScheduledRoot = null;
+let lastScheduledRoot = null;
 
 let callbackExpirationTime = NoWork;
 let callbackID = 1;
@@ -1352,7 +1311,7 @@ let currentSchedulerTime = currentRendererTime;
 // Use these to prevent an infinite loop of nested updates
 const NESTED_UPDATE_LIMIT = 50;
 let nestedUpdateCount = 0;
-let lastCommittedRootDuringThisBatch  = null;
+let lastCommittedRootDuringThisBatch = null;
 
 const timeHeuristicForUnitOfWork = 1;
 
@@ -1399,13 +1358,7 @@ function onComplete(root, finishedWork, expirationTime) {
 	root.finishedWork = finishedWork;
 }
 
-function onSuspend(
-	root,
-	finishedWork,
-	suspendedExpirationTime,
-	rootExpirationTime,
-	msUntilTimeout
-) {
+function onSuspend(root, finishedWork, suspendedExpirationTime, rootExpirationTime, msUntilTimeout) {
 	root.expirationTime = rootExpirationTime;
 	if (enableSuspense && msUntilTimeout === 0 && !shouldYield()) {
 		// Don't wait an additional tick. Commit the tree immediately.
@@ -1552,7 +1505,7 @@ function findHighestPriorityRoot() {
 				// TODO: This check is redudant, but Flow is confused by the branch
 				// below where we set lastScheduledRoot to null, even though we break
 				// from the loop right after.
-			
+
 				if (root === root.nextScheduledRoot) {
 					// This is the only root in the list.
 					root.nextScheduledRoot = null;
@@ -1687,7 +1640,6 @@ function performWork(minExpirationTime, dl) {
 }
 
 function flushRoot(root, expirationTime) {
-	
 	// Perform work on root as if the given expiration time is the current time.
 	// This has the effect of synchronously flushing all work up to and
 	// including the given time.
@@ -1727,7 +1679,6 @@ function finishRendering() {
 }
 
 function performWorkOnRoot(root, expirationTime, isExpired) {
-
 	isRendering = true;
 
 	// Check if this is async work or sync/expired work.
@@ -1847,7 +1798,6 @@ function shouldYield() {
 }
 
 function onUncaughtError(error) {
-
 	// Unschedule this root so we don't work on it again until there's
 	// another update.
 	nextFlushedRoot.expirationTime = NoWork;
