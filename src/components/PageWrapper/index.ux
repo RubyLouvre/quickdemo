@@ -2,20 +2,18 @@
   <div class="pagewrap">
     <refresh refreshing="{{refreshing}}" @refresh="onPullDownRefresh">
       <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
-        <list-item type="foo" style="flex-direction: column;">
+        <list-item type='a' style="flex-direction: column;">
           <slot></slot>
           <div for="{{list}}">
             <text>{{$item}}</text>
           </div>
         </list-item>
       </list>
-
     </refresh>
-    <div class="tabBar" if="{{tabBar && tabBar.list && tabBar.list.length}}" style="background-color:{{tabBar.backgroundColor}}">
+    <div class="tabBar" if="{{tabBar.list.length}}" style="background-color:{{tabBar.backgroundColor}}">
       <div class="tab" for="(index, item) in tabBar.list" onclick="onSelected(index)">
         <text style="color:{{ selectedIndex === index ? tabBar.selectedColor: tabBar.color }}">{{item.text}}</text>
       </div>
-
     </div>
   </div>
 </template>
@@ -27,10 +25,11 @@
     width: 100%;
   }
 
-  .tabBar{
-     width: 100%;
-     height: 100px;
-  } 
+  .tabBar {
+    width: 100%;
+    height: 100px;
+  }
+
   .tabBar .tab {
     flex: 1;
     margin: 10px;
@@ -38,17 +37,17 @@
     justify-content: center;
   }
 
-  .tabBar .tab text{
-     margin: 10px;
-     display:flex;
-     flex: 1;
-     justify-content: center;
-     border: 1px solid #eeeeee;
+  .tabBar .tab text {
+    margin: 10px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    border: 1px solid #eeeeee;
   }
 </style>
 <script>
   import prompt from '@system.prompt';
-
+  import { shareObject } from '../../utils';
   export default {
     props: {
       list: Array,
@@ -56,54 +55,87 @@
       selectedIndex: Number,
       refreshing: Boolean
     },
-    private: {
-      refreshing: false,
-      tabBar: {
-        list: [
-          { text: "aaa" },
-          { text: "cccc" },
-          { text: "dddd" }
-        ],
-        color: "#000",
-        backgroundColor: "#f9faf5",
-        selectedColor: "blue",
-      },
-      list: [111, 222, 333]  // Array.apply(null, { length: 100 }).map(Math.random)
+    onReady() {
+      shareObject.currentPageWrapper = this;
+      console.log(shareObject, "pageWrapper onReady")
+    },
+    onShow() {
+      console.log(shareObject, "pageWrapper onShow")
+    },
+    onInit() {
+      console.log("onInit pageWrapper的数据", this)
+      this.selectedIndex = 0;
+      this.tabBar = {
+        list: []
+      }
+      var cc = shareObject.pageConfig;
+      if (cc) {
+        cc.titleBar = {
+          text: cc.navigationBarTitleText || "",
+          textColor: cc.navigationBarTextStyle || "white",
+          backgroundColor: cc.navigationBarBackgroundColor || "#000",
+          menu: true
+        }
+        this.$page.setTitleBar(cc.titleBar)
+        var tabBar = cc.tabBar;
+        if (tabBar && tabBar.list && tabBar.list.length) {
+          tabBar.backgroundColor = tabBar.backgroundColor || "#f9faf5";
+          tabBar.color = tabBar.color || "#000";
+          tabBar.selectedColor = tabBar.selectedColor || "blue";
+          console.log("bar", tabBar)
+          this.tabBar = tabBar;
+        }
+      }
+      console.log(shareObject, "pageWrapper onInit")
+      this.list = Array.apply(null, { length: 100 }).map(Math.random)
+    },
+    onShow() {
+      var cc = shareObject.pageConfig;
+      if (cc) {
+        this.$page.setTitleBar(cc.titleBar)
+        var tabBar = cc.tabBar;
+        if (tabBar && tabBar.list && tabBar.list.length) {
+          this.tabBar = tabBar;
+        }
+      }
     },
     onReachBottom() {
+      var cc = shareObject.page;
+      if(cc.onReachBottom){
+        cc.onReachBottom(e)
+      }
       prompt.showToast({ message: 'reach bottom' });
     },
     onPageScroll(e) {
-     // console.log(e)
-    },
-    onInit() {
-      console.log(this)
-      this.tabBar = {
-        backgroundColor: "#f9faf5",
-        color: "#000",
-        selectedColor: "blue",
-
-        list: [
-          { text: "aaa" },
-          { text: "cccc" },
-          { text: "dddd" }
-        ]
+      var cc = shareObject.page;
+      if(cc.onPageScroll){
+        cc.onPageScroll(e)
       }
-      this.selectedIndex = 0,
-      
-      this.list = Array.apply(null, { length: 100 }).map(Math.random)
     },
     onSelected(index) {
+      console.log("pageWraper onSelected")
       this.selectedIndex = index;
+      var cc = shareObject.page;
+      if(cc.onTabItemTap){
+        cc.onTabItemTap(tabBar.list[index])
+      }
+    },
+    onShareAppMessage(){
+
     },
     onPullDownRefresh() {
-      this.list = Array.apply(null, { length: 100 }).map(Math.random);
-      prompt.showToast({ message: 'refreshed' });
-      this.refreshing = true
-      setTimeout(() => {
-
-        this.refreshing = false
-      })
+      var cc = shareObject.pageConfig;
+      var cp = shareObject.page;
+      if (cc.enablePullDownRefresh && cp.onPullDownRefresh) {
+        cp.onPullDownRefresh()
+        console.log("pageWraper onPullDownRefresh")
+        this.list = Array.apply(null, { length: 100 }).map(Math.random);
+        prompt.showToast({ message: 'refreshed' });
+        this.refreshing = true
+        setTimeout(() => {
+          this.refreshing = false
+        })
+      }
     }
   };
 </script>

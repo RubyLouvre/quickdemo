@@ -45,15 +45,6 @@
         "titleBarText": "示例页",
         "menu": false
       },
-      "pages/page1": {
-        "titleBarText": "page1"
-      },
-      "pages/page2": {
-        "titleBarText": "page2"
-      },
-      "pages/page3": {
-        "titleBarText": "page3"
-      },
       "pages/About": {
         "menu": false
       }

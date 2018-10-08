@@ -11,7 +11,7 @@
 
         },
         onInit() {
-            console.log("bar onInit")
+            console.log("bar onInit");
             this.list = Array.apply(null, { length: 100 }).map(Math.random)
         },
 

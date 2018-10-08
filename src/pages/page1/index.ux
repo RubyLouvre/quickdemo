@@ -1,11 +1,14 @@
 <import name='Dog' src='../../components/Dog/index'></import>
+<import name='PageWrapper' src='../../components/PageWrapper/index'></import>
 
 <template>
   <!-- template里只能有一个根节点 -->
   <div class="demo-page">
-    <text class="title">{{text}}</text>
-    <Dog props="{{props}}"></Dog>
-    <text>xxxxx</text>
+    <PageWrapper>
+      <text class="title">{{props.text}}</text>
+      <Dog props="{{props.props}}"></Dog>
+      <text>xxxxx</text>
+    </PageWrapper>
   </div>
 </template>
 
@@ -23,30 +26,48 @@
 </style>
 
 <script>
-  import { showMenu } from "../../util"
-  import prompt from '@system.prompt'
-  export default {
-    private: {
-      text: '欢迎打开page1',
-      props: {
-        name: "传进来",
-        age: 10
+  import { showMenu } from "../../utils"
+  import { Page } from "../../utils"
+  class P {
+    constructor() {
+      this.state = {
+        text: '欢迎打开page2!'
       }
-    },
+      this.props = {
+        props: {
+          name: "xxx",
+          age: 12
+        }
+      }
+    }
     onReady() {
       prompt.showToast({
         message: JSON.stringify(this.$page),
         duration: 1
       })
-     
-    },
+    }
     /**
-     * 当用户点击右上角菜单按钮时触发，调用app中定义的方法showMenu
+     * 当用户点击菜单按钮时触发，调用app中定义的方法showMenu
      * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
      */
     onMenuPress() {
       showMenu()
-      //this.$app.$def.showMenu()
+      // this.$app.$def.showMenu()
     }
   }
+  P.config = {
+    navigationBarTitleText: "page1标题",
+    navigationBarBackgroundColor:"#1cafc5",
+    tabBar: {
+      backgroundColor: "#f9faf5",
+      color: "#000",
+      selectedColor: "blue",
+      list: [
+        { text: "tab aaa" },
+        { text: "tab bbb" },
+        { text: "tab ccc" }
+      ]
+    }
+  }
+  export default Page(P)
 </script>
