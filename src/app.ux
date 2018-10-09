@@ -4,24 +4,30 @@
    */
   import { showMenu, createShortcut, toApp } from './utils'
   console.log("先执行")
-  export default toApp({
+  export default {
     showMenu,
     createShortcut,
     globalData: {
 
     },
+    onCreate() {
+      console.info('Application onCreate')
+    },
+    onDestroy() {
+      console.info('Application onDestroy')
+    },
     title: "user",
     config: {
-      navigationBarTitleText: "page2标题",
+      navigationBarTitleText: "Qunar",
       navigationBarBackgroundColor: "#1cafc5",
       enablePullDownRefresh: true,
       tabBar: {
         backgroundColor: "#f9faf5",
         color: "#000",
-        selectedColor: "blue",
+        selectedColor: "#48adc4",
         list: [
           {
-            'pagePath': '/pages/page1',
+            'pagePath': '/pages/index',
             'iconPath': '/assets/image/homepage_normal.png',
             'selectedIconPath': '/assets/image/homepage_select.png',
             'text': '首页'
@@ -30,16 +36,16 @@
             'pagePath': '/pages/page2',
             'iconPath': '/assets/image/question_normal.png',
             'selectedIconPath': '/assets/image/question_select.png',
-            'text': '问答社区',
+            'text': '第二页',
           },
           {
             'pagePath': '/pages/page3',
             'iconPath': '/assets/image/uc_normal.png',
             'selectedIconPath': '/assets/image/uc_select.png',
-            'text': '我的'
+            'text': '第三页'
           }
         ]
       }
     }
-  })
+  }
 </script>

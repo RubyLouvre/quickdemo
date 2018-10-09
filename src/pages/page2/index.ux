@@ -45,7 +45,7 @@
     tabBar: {
       backgroundColor: "#f9faf5",
       color: "#000",
-      selectedColor: "blue",
+      selectedColor: "#48adc4",
       list: [
           {
             'pagePath': '/pages/page1',

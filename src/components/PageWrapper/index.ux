@@ -1,26 +1,20 @@
 <template>
   <div class="pagewrap">
-    <!--
     <refresh refreshing="{{refreshing}}" @refresh="onPullDownRefresh">
       <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
         <list-item type='a' style="flex-direction: column;">
           <slot></slot>
-          <div for="{{list}}">
-            <text>{{$item}}</text>
-          </div>
         </list-item>
       </list>
     </refresh>
     <div class="tabBar" if="{{tabBar.list.length}}" style="background-color:{{tabBar.backgroundColor}}">
       <div class="tab" for="(index, item) in tabBar.list" onclick="onSelected(item)">
-        <image src="{{ currentPath === item.pagePath ? item.selectedIconPath : item.iconPath }}" /> 
+        <image src="{{ currentPath === item.pagePath ? item.selectedIconPath : item.iconPath }}" />
         <a style="color:{{ currentPath === item.pagePath ? tabBar.selectedColor: tabBar.color }}">
-         {{item.text}}
+          {{item.text}}
         </a>
       </div>
     </div>
-  -->
-  <slot></slot>
   </div>
 </template>
 <style>
@@ -46,10 +40,12 @@
     justify-content: center;
     align-items: center;
   }
+
   .tabBar .tab image {
-    width:60px;
+    width: 60px;
     height: 60px;
   }
+
   .tabBar .tab a {
     margin: 10px;
     border: 1px solid #eeeeee;
@@ -59,31 +55,71 @@
   import prompt from '@system.prompt';
   import router from '@system.router'
   import { shareObject, getApp } from '../../utils';
+ 
   export default {
     props: {
-      list: Array,
       tabBar: Object,
       refreshing: Boolean,
       currentPath: String
     },
     onReady() {
-   
-     
-    },
-    onShow() {
-      this.currentPath = shareObject.pagePath.replace(/\/index$/,"")
     },
     onInit() {
-    //  this.selectedIndex = 0;
       this.tabBar = {
         list: []
       }
-      var app = getApp() || {
-        title: "后补"
+      setTitleAndTabs(this);
+    },
+    onShow() {
+      setTitleAndTabs(this);
+    },
+    onReachBottom() {
+      var cc = shareObject.page;
+      if (cc.onReachBottom) {
+        cc.onReachBottom(e)
       }
-    //  this.currentPath = shareObject.pagePath.replace(/\/index$/,"")
+      prompt.showToast({ message: 'reach bottom' });
+    },
+    onPageScroll(e) {
+      var cc = shareObject.page;
+      if (cc.onPageScroll) {
+        cc.onPageScroll(e)
+      }
+    },
+    onSelected(item) {
+      console.log("pageWraper onSelected", item.pagePath)
+      this.currentPath = item.pagePath;
+      //this.selectedIndex = index;
+      var page = shareObject.page;
+      if (page.onTabItemTap) {
+         page.onTabItemTap(item)
+      }
+      router.push({
+        uri: item.pagePath
+      })
+    },
+    onShareAppMessage() {
+
+    },
+    onPullDownRefresh() {
+      var app = getApp()
       var cc = shareObject.pageConfig || app.config
-      console.log(app.title, shareObject,  shareObject.app, "app!!!")
+      var page = shareObject.page;
+      if (cc.enablePullDownRefresh && page.onPullDownRefresh) {
+        page.onPullDownRefresh()
+        prompt.showToast({ message: 'refreshed' });
+      }
+      this.refreshing = true
+      setTimeout(() => {
+        this.refreshing = false
+      })
+    }
+  };
+
+   function setTitleAndTabs(instance){
+      var app = getApp()
+      instance.currentPath = shareObject.pagePath.replace(/\/index$/, "")
+      var cc = shareObject.pageConfig || app.config
       if (cc) {
         cc.titleBar = {
           text: cc.navigationBarTitleText || "",
@@ -91,70 +127,14 @@
           backgroundColor: cc.navigationBarBackgroundColor || "#000",
           menu: true
         }
-        this.$page.setTitleBar(cc.titleBar)
+        instance.$page.setTitleBar(cc.titleBar)
         var tabBar = cc.tabBar;
         if (tabBar && tabBar.list && tabBar.list.length) {
           tabBar.backgroundColor = tabBar.backgroundColor || "#f9faf5";
           tabBar.color = tabBar.color || "#000";
-          tabBar.selectedColor = tabBar.selectedColor || "blue";
-          this.tabBar = tabBar;
+          tabBar.selectedColor = tabBar.selectedColor || "48adc4";
+          instance.tabBar = tabBar;
         }
       }
-      this.list = Array.apply(null, { length: 100 }).map(Math.random)
-      console.log(this, "------")
-    },
-    onShow() {
-      var app = getApp() 
-      var cc = shareObject.pageConfig || app.config
-      if (cc) {
-        this.$page.setTitleBar(cc.titleBar)
-        var tabBar = cc.tabBar;
-        if (tabBar && tabBar.list && tabBar.list.length) {
-          this.tabBar = tabBar;
-        }
-      }
-    },
-    onReachBottom() {
-      var cc = shareObject.page;
-      if(cc.onReachBottom){
-        cc.onReachBottom(e)
-      }
-      prompt.showToast({ message: 'reach bottom' });
-    },
-    onPageScroll(e) {
-      var cc = shareObject.page;
-      if(cc.onPageScroll){
-        cc.onPageScroll(e)
-      }
-    },
-    onSelected(item) {
-      console.log("pageWraper onSelected", item.pagePath)
-      this.currentPath = item.pagePath; 
-      //this.selectedIndex = index;
-      var cc = shareObject.page;
-      if(cc.onTabItemTap){
-        cc.onTabItemTap(item)
-      }
-      router.push ({
-        uri: item.pagePath
-      })
-    },
-    onShareAppMessage(){
-
-    },
-    onPullDownRefresh() {
-      var cc = shareObject.pageConfig;
-      var cp = shareObject.page;
-      if (cc.enablePullDownRefresh && cp.onPullDownRefresh) {
-        cp.onPullDownRefresh()
-        console.log("pageWraper onPullDownRefresh")
-        this.list = Array.apply(null, { length: 100 }).map(Math.random);
-        prompt.showToast({ message: 'refreshed' });
-        this.refreshing = true
-        setTimeout(() => {
-          this.refreshing = false
-        })
-      }
-    }
-  };
+  }
 </script>

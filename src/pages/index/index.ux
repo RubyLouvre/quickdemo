@@ -3,7 +3,10 @@
 <template>
   <div class="page">
     <PageWrapper>
-       <text>这是首页</text>
+       <text>这是首页&nbsp;{{state.text}}</text>
+       <div for="{{props.list}}">
+          <text>{{$item}}</text>
+        </div>
     </PageWrapper>
     </div>
 </template>
@@ -20,45 +23,15 @@
   class P {
     constructor() {
         this.state = {
-          text: '欢迎打开page2!'
+          text: 'nanachi'
         }
         this.props = {
-          props: {
-            name: "xxx",
-            age: 12
-          }
+          list: Array.apply(null, { length: 50 }).map(Math.random)
         }
     }
-  }
-  P.config = {
-      navigationBarTitleText: "首页",
-      navigationBarBackgroundColor: "#1cafc5",
-      enablePullDownRefresh: true,
-      tabBar: {
-        backgroundColor: "#f9faf5",
-        color: "#000",
-        selectedColor: "blue",
-        list: [
-          {
-            'pagePath': '/pages/index',
-            'iconPath': '/assets/image/homepage_normal.png',
-            'selectedIconPath': '/assets/image/homepage_select.png',
-            'text': '首页'
-          },
-          {
-            'pagePath': '/pages/page2',
-            'iconPath': '/assets/image/question_normal.png',
-            'selectedIconPath': '/assets/image/question_select.png',
-            'text': '问答社区',
-          },
-          {
-            'pagePath': '/pages/page3',
-            'iconPath': '/assets/image/uc_normal.png',
-            'selectedIconPath': '/assets/image/uc_select.png',
-            'text': '我的'
-          }
-        ]
-      }
+    onPullDownRefresh(){
+      this.props.list = Array.apply(null, { length: 50 }).map(Math.random)
     }
-    export default toPage(P, "/pages/index/index")
+  }
+  export default toPage(P, "/pages/index/index")
 </script>
