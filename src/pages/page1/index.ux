@@ -27,7 +27,7 @@
 
 <script>
   import { showMenu } from "../../utils"
-  import { Page } from "../../utils"
+  import { toPage } from "../../utils"
   class P {
     constructor() {
       this.state = {
@@ -63,11 +63,11 @@
       color: "#000",
       selectedColor: "blue",
       list: [
-        { text: "tab aaa" },
-        { text: "tab bbb" },
-        { text: "tab ccc" }
+        { text: "tab aaa", pagePath: "pages/page1" },
+        { text: "tab bbb", pagePath: "pages/page2" },
+        { text: "tab ccc", pagePath: "pages/page3" }
       ]
     }
   }
-  export default Page(P)
+  export default toPage(P, "/pages/page1/index")
 </script>

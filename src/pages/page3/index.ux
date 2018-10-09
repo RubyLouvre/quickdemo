@@ -21,7 +21,7 @@
   }
 </style>
 <script>
-  import { Page } from "../../utils"
+  import { toPage } from "../../utils"
   class P {
     constructor() {
       this.props = {
@@ -41,16 +41,31 @@
     navigationBarTitleText: "page3标题",
     navigationBarBackgroundColor:"#1cafc5",
     tabBar: {
-      backgroundColor: "#daf4fd",
+      backgroundColor: "#fdc859",
       color: "#000",
       selectedColor: "blue",
       list: [
-        { text: "tab aaa" },
-        { text: "tab bbb" },
-        { text: "tab ccc" }
+          {
+            'pagePath': '/pages/page1',
+            'iconPath': '/assets/image/homepage_normal.png',
+            'selectedIconPath': '/assets/image/homepage_select.png',
+            'text': '首页'
+          },
+          {
+            'pagePath': '/pages/page2',
+            'iconPath': '/assets/image/question_normal.png',
+            'selectedIconPath': '/assets/image/question_select.png',
+            'text': '问答社区',
+          },
+          {
+            'pagePath': '/pages/page3',
+            'iconPath': '/assets/image/uc_normal.png',
+            'selectedIconPath': '/assets/image/uc_select.png',
+            'text': '我的'
+          }
       ]
     }
   }
-  export default Page(P)
+  export default toPage(P, "/pages/page3/index")
 
 </script>

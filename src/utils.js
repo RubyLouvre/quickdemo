@@ -34,7 +34,13 @@ export function showMenu() {
         }
     });
 }
-
+var app
+export function toApp(config){
+   app = config
+}
+export function getApp(){
+    return app
+}
 /**
  * 创建桌面图标
  * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
@@ -66,7 +72,7 @@ export function createShortcut() {
     });
 }
 export var shareObject = {};
-export function Page(PageClass) {
+export function toPage(PageClass, path) {
     var proto = PageClass.prototype;
     var instance = new PageClass({}, {});
     var config = {
@@ -81,18 +87,25 @@ export function Page(PageClass) {
             this.context = instance.context;
             var cc = proto.config || PageClass.config;
             shareObject.pageConfig = cc;
+            shareObject.pagePath = path;
             shareObject.page = this;
             console.log("Page onInit");
         },
         onShow() {
             var cc = proto.config || PageClass.config;
             shareObject.pageConfig = cc;
+            shareObject.pagePath = path;
             shareObject.page = this;
         },
         onReady() {
             console.log("Page onReady");
         }
     };
+    for(var i in instance){
+        if(typeof instance[i] == "function" && !config[i]){
+            config[i] = instance[i].bind(instance)
+        }
+    }
     return config;
 }
 
