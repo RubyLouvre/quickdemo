@@ -11,8 +11,11 @@
       </list>
     </refresh>
     <div class="tabBar" if="{{tabBar.list.length}}" style="background-color:{{tabBar.backgroundColor}}">
-      <div class="tab" for="(index, item) in tabBar.list" onclick="onSelected(index)">
-        <text style="color:{{ selectedIndex === index ? tabBar.selectedColor: tabBar.color }}">{{item.text}}</text>
+      <div class="tab" for="(index, item) in tabBar.list" onclick="onSelected(index, item)">
+        <image src="{{ selectedIndex === index ? item.selectedIconPath : item.iconPath }}" /> 
+        <a style="color:{{ selectedIndex === index ? tabBar.selectedColor: tabBar.color }}">
+         {{item.text}}
+        </a>
       </div>
     </div>
   </div>
@@ -23,33 +26,35 @@
     flex: 1;
     flex-direction: column;
     width: 100%;
-    padding-bottom: 100px;
+    padding-bottom: 150px;
   }
 
   .tabBar {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 100px;
+    height: 150px;
   }
 
   .tabBar .tab {
     flex: 1;
     margin: 10px;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
-
-  .tabBar .tab text {
+  .tabBar .tab image {
+    width:60px;
+    height: 60px;
+  }
+  .tabBar .tab a {
     margin: 10px;
-    display: flex;
-    flex: 1;
-    justify-content: center;
     border: 1px solid #eeeeee;
   }
 </style>
 <script>
   import prompt from '@system.prompt';
+  import router from '@system.router'
   import { shareObject } from '../../utils';
   export default {
     props: {
@@ -60,13 +65,11 @@
     },
     onReady() {
       shareObject.currentPageWrapper = this;
-      console.log(shareObject, "pageWrapper onReady")
+     
     },
     onShow() {
-      console.log(shareObject, "pageWrapper onShow")
     },
     onInit() {
-      console.log("onInit pageWrapper的数据", this)
       this.selectedIndex = 0;
       this.tabBar = {
         list: []
@@ -85,11 +88,9 @@
           tabBar.backgroundColor = tabBar.backgroundColor || "#f9faf5";
           tabBar.color = tabBar.color || "#000";
           tabBar.selectedColor = tabBar.selectedColor || "blue";
-          console.log("bar", tabBar)
           this.tabBar = tabBar;
         }
       }
-      console.log(shareObject, "pageWrapper onInit")
       this.list = Array.apply(null, { length: 100 }).map(Math.random)
     },
     onShow() {
@@ -115,13 +116,16 @@
         cc.onPageScroll(e)
       }
     },
-    onSelected(index) {
-      console.log("pageWraper onSelected")
+    onSelected(index, item) {
+      console.log("pageWraper onSelected", item.pagePath)
       this.selectedIndex = index;
       var cc = shareObject.page;
       if(cc.onTabItemTap){
-        cc.onTabItemTap(tabBar.list[index])
+        cc.onTabItemTap(item)
       }
+      router.push ({
+        uri: item.pagePath
+      })
     },
     onShareAppMessage(){
 
