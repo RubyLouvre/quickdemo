@@ -88,7 +88,10 @@ export function toPage(pageClass, pagePath) {
 		},
 		onReady() {
 			console.log('Page onReady');
-		},
+        },
+        onMenuPress(a){
+            instance.onMenuPress && instance.onMenuPress(a)
+        }
 	};
 	return config;
 }
