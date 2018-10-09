@@ -26,8 +26,7 @@
 </style>
 
 <script>
-  import { showMenu } from "../../utils"
-  import { toPage } from "../../utils"
+  import { toPage,showMenu } from "../../utils"
   class P {
     constructor() {
       this.state = {

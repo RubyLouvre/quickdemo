@@ -1,5 +1,6 @@
 <template>
   <div class="pagewrap">
+    <!--
     <refresh refreshing="{{refreshing}}" @refresh="onPullDownRefresh">
       <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
         <list-item type='a' style="flex-direction: column;">
@@ -18,6 +19,8 @@
         </a>
       </div>
     </div>
+  -->
+  <slot></slot>
   </div>
 </template>
 <style>
@@ -60,9 +63,8 @@
     props: {
       list: Array,
       tabBar: Object,
-      selectedIndex: Number,
       refreshing: Boolean,
-      path: String
+      currentPath: String
     },
     onReady() {
    
@@ -76,9 +78,12 @@
       this.tabBar = {
         list: []
       }
-      var app = getApp()
-      this.currentPath = shareObject.pagePath.replace(/\/index$/,"")
+      var app = getApp() || {
+        title: "后补"
+      }
+    //  this.currentPath = shareObject.pagePath.replace(/\/index$/,"")
       var cc = shareObject.pageConfig || app.config
+      console.log(app.title, shareObject,  shareObject.app, "app!!!")
       if (cc) {
         cc.titleBar = {
           text: cc.navigationBarTitleText || "",
@@ -96,9 +101,10 @@
         }
       }
       this.list = Array.apply(null, { length: 100 }).map(Math.random)
+      console.log(this, "------")
     },
     onShow() {
-      var app = getApp()
+      var app = getApp() 
       var cc = shareObject.pageConfig || app.config
       if (cc) {
         this.$page.setTitleBar(cc.titleBar)

@@ -34,12 +34,14 @@ export function showMenu() {
         }
     });
 }
-var app
+export var shareObject = {};
 export function toApp(config){
-   app = config
+   shareObject.app = config
+   console.log("进入toApp")
+   return config;
 }
 export function getApp(){
-    return app
+    return shareObject.app;
 }
 /**
  * 创建桌面图标
@@ -71,7 +73,7 @@ export function createShortcut() {
         }
     });
 }
-export var shareObject = {};
+
 export function toPage(PageClass, path) {
     var proto = PageClass.prototype;
     var instance = new PageClass({}, {});
@@ -106,6 +108,7 @@ export function toPage(PageClass, path) {
             config[i] = instance[i].bind(instance)
         }
     }
+    console.log(config)
     return config;
 }
 

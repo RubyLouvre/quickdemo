@@ -2,13 +2,10 @@
 
 <template>
   <!-- template里只能有一个根节点 -->
-  <div class="demo-page">
     <PageWrapper>
       <text class="title">{{state.text}}</text>
       <text>打开页面</text>
     </PageWrapper>
-
-  </div>
 </template>
 
 <style>

@@ -3,13 +3,14 @@
    * 应用级别的配置，供所有页面公用
    */
   import { showMenu, createShortcut, toApp } from './utils'
-
+  console.log("先执行")
   export default toApp({
     showMenu,
     createShortcut,
     globalData: {
 
     },
+    title: "user",
     config: {
       navigationBarTitleText: "page2标题",
       navigationBarBackgroundColor: "#1cafc5",
@@ -20,13 +21,13 @@
         selectedColor: "blue",
         list: [
           {
-            'pagePath': '/pages/index',
+            'pagePath': '/pages/page1',
             'iconPath': '/assets/image/homepage_normal.png',
             'selectedIconPath': '/assets/image/homepage_select.png',
             'text': '首页'
           },
           {
-            'pagePath': '/pages/page1',
+            'pagePath': '/pages/page2',
             'iconPath': '/assets/image/question_normal.png',
             'selectedIconPath': '/assets/image/question_select.png',
             'text': '问答社区',
