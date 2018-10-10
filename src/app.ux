@@ -3,21 +3,32 @@
    * 应用级别的配置，供所有页面公用
    */
   import { showMenu, createShortcut, toApp } from './utils'
-
-  export default toApp({
+  console.log("先执行")
+  export default {
+     /**
+     * 当用户点击菜单按钮时触发，调用app中定义的方法showMenu
+     * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
+     */
     showMenu,
     createShortcut,
     globalData: {
 
     },
+    onCreate() {
+      console.info('Application onCreate')
+    },
+    onDestroy() {
+      console.info('Application onDestroy')
+    },
+    title: "user",
     config: {
-      navigationBarTitleText: "page2标题",
+      navigationBarTitleText: "Qunar",
       navigationBarBackgroundColor: "#1cafc5",
       enablePullDownRefresh: true,
       tabBar: {
         backgroundColor: "#f9faf5",
         color: "#000",
-        selectedColor: "blue",
+        selectedColor: "#48adc4",
         list: [
           {
             'pagePath': '/pages/index',
@@ -26,19 +37,19 @@
             'text': '首页'
           },
           {
-            'pagePath': '/pages/page1',
+            'pagePath': '/pages/page2',
             'iconPath': '/assets/image/question_normal.png',
             'selectedIconPath': '/assets/image/question_select.png',
-            'text': '问答社区',
+            'text': '第二页',
           },
           {
             'pagePath': '/pages/page3',
             'iconPath': '/assets/image/uc_normal.png',
             'selectedIconPath': '/assets/image/uc_select.png',
-            'text': '我的'
+            'text': '第三页'
           }
         ]
       }
     }
-  })
+  }
 </script>

@@ -2,13 +2,10 @@
 
 <template>
   <!-- template里只能有一个根节点 -->
-  <div class="demo-page">
     <PageWrapper>
       <text class="title">{{state.text}}</text>
       <text>打开页面</text>
     </PageWrapper>
-
-  </div>
 </template>
 
 <style>
@@ -32,14 +29,6 @@
         text: '欢迎打开page2!'
       }
     }
-    /**
-     * 当用户点击菜单按钮时触发，调用app中定义的方法showMenu
-     * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
-     */
-    onMenuPress() {
-
-      // this.$app.$def.showMenu()
-    }
   }
   P.config = {
     navigationBarTitleText: "page2标题",
@@ -48,7 +37,7 @@
     tabBar: {
       backgroundColor: "#f9faf5",
       color: "#000",
-      selectedColor: "blue",
+      selectedColor: "#48adc4",
       list: [
           {
             'pagePath': '/pages/page1',
