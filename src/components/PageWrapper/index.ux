@@ -1,5 +1,5 @@
 <template>
-  <div class="pagewrap">
+  <div class="pagewrap" style="padding-bottom: {{tabBar.list.length?'150px': '0px'}}">
     <refresh refreshing="{{refreshing}}" @refresh="onPullDownRefresh">
       <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
         <list-item type='a' style="flex-direction: column;">
@@ -19,11 +19,9 @@
 </template>
 <style>
   .pagewrap {
-    display: flex;
     flex: 1;
     flex-direction: column;
     width: 100%;
-    padding-bottom: 150px;
   }
 
   .tabBar {
@@ -55,7 +53,7 @@
   import prompt from '@system.prompt';
   import router from '@system.router'
   import { shareObject, getApp } from '../../utils';
- 
+
   export default {
     props: {
       tabBar: Object,
@@ -87,19 +85,17 @@
       }
     },
     onSelected(item) {
+
       console.log("pageWraper onSelected", item.pagePath)
       this.currentPath = item.pagePath;
       //this.selectedIndex = index;
       var page = shareObject.page;
       if (page.onTabItemTap) {
-         page.onTabItemTap(item)
+        page.onTabItemTap(item)
       }
       router.push({
         uri: item.pagePath
       })
-    },
-    onShareAppMessage() {
-
     },
     onPullDownRefresh() {
       var app = getApp()
@@ -116,25 +112,25 @@
     }
   };
 
-   function setTitleAndTabs(instance){
-      var app = getApp()
-      instance.currentPath = shareObject.pagePath.replace(/\/index$/, "")
-      var cc = shareObject.pageConfig || app.config
-      if (cc) {
-        cc.titleBar = {
-          text: cc.navigationBarTitleText || "",
-          textColor: cc.navigationBarTextStyle || "white",
-          backgroundColor: cc.navigationBarBackgroundColor || "#000",
-          menu: true
-        }
-        instance.$page.setTitleBar(cc.titleBar)
-        var tabBar = cc.tabBar;
-        if (tabBar && tabBar.list && tabBar.list.length) {
-          tabBar.backgroundColor = tabBar.backgroundColor || "#f9faf5";
-          tabBar.color = tabBar.color || "#000";
-          tabBar.selectedColor = tabBar.selectedColor || "48adc4";
-          instance.tabBar = tabBar;
-        }
+  function setTitleAndTabs(instance) {
+    var app = getApp()
+    instance.currentPath = shareObject.pagePath.replace(/\/index$/, "")
+    var cc = shareObject.pageConfig || app.config
+    if (cc) {
+      cc.titleBar = {
+        text: cc.navigationBarTitleText || "",
+        textColor: cc.navigationBarTextStyle || "white",
+        backgroundColor: cc.navigationBarBackgroundColor || "#000",
+        menu: true
       }
+      instance.$page.setTitleBar(cc.titleBar)
+      var tabBar = cc.tabBar;
+      if (tabBar && tabBar.list && tabBar.list.length) {
+        tabBar.backgroundColor = tabBar.backgroundColor || "#f9faf5";
+        tabBar.color = tabBar.color || "#000";
+        tabBar.selectedColor = tabBar.selectedColor || "48adc4";
+        instance.tabBar = tabBar;
+      }
+    }
   }
 </script>
