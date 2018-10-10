@@ -27,10 +27,11 @@
 
 <script>
   import { toPage, getApp } from "../../utils"
+  import prompt from '@system.prompt';
   class P {
     constructor() {
       this.state = {
-        text: '欢迎打开page2!'
+        text: '欢迎打开page1'
       }
       this.props = {
         props: {
@@ -43,8 +44,9 @@
        getApp().showMenu()
     }
     onReady() {
+      console.log(this.wx)
       prompt.showToast({
-        message: JSON.stringify(this.$page),
+        message: JSON.stringify(this.wx.$page),
         duration: 1
       })
     }

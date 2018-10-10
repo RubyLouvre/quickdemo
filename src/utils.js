@@ -28,7 +28,8 @@ var showMenuList = [
  * 显示菜单
  */
 export function showMenu(shareObject) {
-    const prompt = require("@system.prompt");
+	const prompt = require("@system.prompt");
+	let list =  showMenuList;
     if (shareObject) {
         list = [
             {
@@ -52,10 +53,7 @@ export function showMenu(shareObject) {
                 }
             }
         ].concat(showMenuList);
-    } else {
-        list = showMenuList;
     }
-
     //分享转发 https://doc.quickapp.cn/features/service/share.html
     prompt.showContextMenu({
         itemList: list.map(function(el) {
@@ -115,14 +113,17 @@ export function toPage(pageClass, pagePath) {
         onInit() {
             this.props = instance.props;
             this.state = instance.state;
-            this.context = instance.context;
+			this.context = instance.context;
+			instance.wx = this;
+			instance.onInit && instance.onInit()
             transmitData(pageClass, pagePath, instance, this);
         },
         onShow() {
+			instance.onShow && instance.onShow()
             transmitData(pageClass, pagePath, instance, this);
         },
         onReady() {
-            console.log("Page onReady");
+			instance.onReady && instance.onReady()
         },
         onMenuPress(a) {
             instance.onMenuPress && instance.onMenuPress(a);
