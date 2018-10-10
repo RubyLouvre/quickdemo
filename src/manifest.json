@@ -8,7 +8,8 @@
   "features": [
     { "name": "system.prompt" },
     { "name": "system.router" },
-    { "name": "system.shortcut" }
+    { "name": "system.shortcut" },
+    { "name": "system.share" }
   ],
   "permissions": [
     { "origin": "*" }

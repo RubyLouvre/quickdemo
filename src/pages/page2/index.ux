@@ -2,10 +2,10 @@
 
 <template>
   <!-- template里只能有一个根节点 -->
-    <PageWrapper>
-      <text class="title">{{state.text}}</text>
-      <text>打开页面</text>
-    </PageWrapper>
+  <PageWrapper>
+    <text class="title">{{state.text}}</text>
+    <text>打开页面</text>
+  </PageWrapper>
 </template>
 
 <style>
@@ -22,11 +22,21 @@
 </style>
 
 <script>
-  import { toPage } from "../../utils"
+  import { toPage, getApp } from "../../utils"
   class P {
     constructor() {
       this.state = {
         text: '欢迎打开page2!'
+      }
+    }
+    onMenuPress() {
+      var obj = this.onShareAppMessage && this.onShareAppMessage()
+      getApp().showMenu(obj)
+    }
+    onShareAppMessage() {
+      return {
+        title: '自定义转发标题',
+        path: '/page/user?id=123'
       }
     }
   }
@@ -39,24 +49,24 @@
       color: "#000",
       selectedColor: "#48adc4",
       list: [
-          {
-            'pagePath': '/pages/page1',
-            'iconPath': '/assets/image/homepage_normal.png',
-            'selectedIconPath': '/assets/image/homepage_select.png',
-            'text': 'page1'
-          },
-          {
-            'pagePath': '/pages/page2',
-            'iconPath': '/assets/image/question_normal.png',
-            'selectedIconPath': '/assets/image/question_select.png',
-            'text': 'page2',
-          },
-          {
-            'pagePath': '/pages/page3',
-            'iconPath': '/assets/image/uc_normal.png',
-            'selectedIconPath': '/assets/image/uc_select.png',
-            'text': 'page3'
-          }
+        {
+          'pagePath': '/pages/page1',
+          'iconPath': '/assets/image/homepage_normal.png',
+          'selectedIconPath': '/assets/image/homepage_select.png',
+          'text': 'page1'
+        },
+        {
+          'pagePath': '/pages/page2',
+          'iconPath': '/assets/image/question_normal.png',
+          'selectedIconPath': '/assets/image/question_select.png',
+          'text': 'page2',
+        },
+        {
+          'pagePath': '/pages/page3',
+          'iconPath': '/assets/image/uc_normal.png',
+          'selectedIconPath': '/assets/image/uc_select.png',
+          'text': 'page3'
+        }
       ]
     }
   }

@@ -87,6 +87,7 @@
       }
     },
     onSelected(item) {
+      
       console.log("pageWraper onSelected", item.pagePath)
       this.currentPath = item.pagePath;
       //this.selectedIndex = index;
@@ -97,9 +98,6 @@
       router.push({
         uri: item.pagePath
       })
-    },
-    onShareAppMessage() {
-
     },
     onPullDownRefresh() {
       var app = getApp()

@@ -28,9 +28,6 @@
         text: '欢迎打开page3!'
       }
     }
-    onMenuPress() {
-       getApp().showMenu()
-    }
   }
   P.config = {
     navigationBarTitleText: "page3标题",

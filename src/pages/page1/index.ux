@@ -39,6 +39,9 @@
         }
       }
     }
+    onMenuPress() {
+       getApp().showMenu()
+    }
     onReady() {
       prompt.showToast({
         message: JSON.stringify(this.$page),
