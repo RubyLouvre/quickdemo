@@ -1,48 +1,41 @@
 <import name='PageWrapper' src='../../components/PageWrapper/index'></import>
 
 <template>
-  <div class="page">
-        <PageWrapper>
-            <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
-            <div class="row">
-                <block for="(index, item) in state.indexPageIcons" >
-                    <div class="cell-4">
-                        <image class="item-image" src="{{item.logoSrc}}"/>
-                    </div>
-                </block>
-            </div>
-            <div class="row">
-                <block for="(index, item) in state.toolData" >
-                    <div class="cell-3">
-                        <image class="item-image" src="{{item.url}}"/>
-                    </div>
-                </block>
-            </div>
-            <text>特价专区</text>
-            <div class="row">
-                <block for="(index, item) in state.specialOfferData" >
-                    <div class="cell-4">
-                        <image class="item-image" src="{{item.url}}"/>
-                    </div>
-                </block>
-            </div>
-            <text>活动专区</text>
-            <div class="row">
-                <div class="cell-6">
-                    <div class="event-item--left" class="event-item-1">
-                        <text>何时飞</text>
+    <div class="col">
+        <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
+        <div class="row">
+            <block for="(index, item) in state.indexPageIcons" >
+                <div class="cell-4">
+                    <div class="mainEntry-item col">
+                        <image class="mainEntry-image" src="{{item.logoSrc}}" />
+                        <text class="mainEntry-title">{{item.bizTitle}}</text>
                     </div>
                 </div>
-                <div class="cell-6 col">
-                    <div class="event-item--right event-item-2">
-                        <text>人格测试</text>
-                    </div>
-                    <div class="event-item--right event-item-3">
-                        <text>飞行宝贝</text>
-                    </div>
+            </block>
+        </div>
+        <div class="row">
+            <block for="(index, item) in state.toolData" >
+                <div class="cell-3 subEntry-item">
+                    <image class="inner-image" src="{{item.url}}" />
                 </div>
+            </block>
+        </div>
+        <text>特价专区</text>
+        <div class="row">
+            <block for="(index, item) in state.specialOfferData" >
+                <div class="cell-4">
+                    <image class="inner-image" src="{{item.url}}"/>
+                </div>
+            </block>
+        </div>
+        <text>活动专区</text>
+        <div class="event-wrapper row">
+            <image class="event-item cell-6" src="https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png" />
+            <div class="cell-6 col event-item ">
+                <image class="event-item--right" src="https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg" />
+                <image class="event-item--right" src="https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg" />
             </div>
-        </PageWrapper>
+        </div>
     </div>
 </template>
 
@@ -84,22 +77,38 @@ $grid-columns: 12;
     width: 750px;
     height: 184px;
 }
-
-.item-image {
-    width: 100%;
-
+.mainEntry-item {
+    margin: 4px;
+    align-items: center;
+    transform: scale(1);
 }
+.mainEntry-image {
+    height: 200px;
+}
+.mainEntry-title {
+    color: #fff;
+    height: 200px;
+    margin: -200px 0 0 0;
+}
+.subEntry-item {
+    padding: 60px;
+}
+
 .item-block {
     border: 1px solid black;
 }
-.event-item-1 {
-    background-image: url('https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png');
+.inner-image {
+    width: 100%;
 }
-.event-item-2 {
-    background-image: url('https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg');
+.event-item {
+    padding: 4px;
 }
-.event-item-3 {
-    background-image: url('https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg');
+.event-item--left {
+    margin: 4px 0;
+}
+.event-item--right {
+    flex: 1;
+    margin: 4px 0;
 }
 </style>
 
