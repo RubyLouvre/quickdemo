@@ -17,7 +17,7 @@
     </div>
   </div>
 </template>
-<style>
+<style lang="sass">
   .pagewrap {
     flex: 1;
     flex-direction: column;

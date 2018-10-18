@@ -1,44 +1,64 @@
 <import name='PageWrapper' src='../../components/PageWrapper/index'></import>
 
 <template>
-  <div class="page">
+    <div class="page">
         <PageWrapper>
             <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
-            <div class="row">
+            <div class="mainEntry row">
                 <block for="(index, item) in state.indexPageIcons" >
                     <div class="cell-4">
-                        <image class="item-image" src="{{item.logoSrc}}"/>
+                        <div class="mainEntry-item mainEntry-item--{{index}} col">
+                            <image class="mainEntry-image" src="{{item.logoSrc}}" />
+                            <text class="mainEntry-title">{{item.bizTitle}}</text>
+                        </div>
                     </div>
                 </block>
             </div>
             <div class="row">
                 <block for="(index, item) in state.toolData" >
                     <div class="cell-3">
-                        <image class="item-image" src="{{item.url}}"/>
+                        <div class="subEntry-item col">
+                            <image class="subEntry-image" src="{{item.url}}" />
+                            <text class="subEntry-text">{{item.title}}</text>
+                        </div>
                     </div>
                 </block>
             </div>
-            <text>特价专区</text>
-            <div class="row">
+            <text class="subTitle">特价专区</text>
+            <div class="specialOffer-wrapper row">
                 <block for="(index, item) in state.specialOfferData" >
                     <div class="cell-4">
-                        <image class="item-image" src="{{item.url}}"/>
+                        <image class="specialOffer-image inner-image" src="{{item.url}}"/>
                     </div>
                 </block>
             </div>
-            <text>活动专区</text>
-            <div class="row">
+            <text class="subTitle">活动专区</text>
+            <div class="event-wrapper row">
                 <div class="cell-6">
-                    <div class="event-item--left" class="event-item-1">
-                        <text>何时飞</text>
+                    <div class="col event-item event-item--0">
+                        <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png" />
+                        <div class="event-text-wrapper col">
+                            <text class="event-title">何时飞</text>
+                            <text class="event-description">机票趋势早知道</text>
+                        </div>
                     </div>
                 </div>
-                <div class="cell-6 col">
-                    <div class="event-item--right event-item-2">
-                        <text>人格测试</text>
-                    </div>
-                    <div class="event-item--right event-item-3">
-                        <text>飞行宝贝</text>
+                <div class="cell-6">
+                    <div class="col event-item">
+                        <div class="col event-item--right event-item--1">
+                            <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg" />
+                            <div class="event-text-wrapper col">
+                                <text class="event-title">人格测试</text>
+                                <text class="event-description">简直惊悚</text>
+                            </div>
+                        </div>
+                        <div class="col event-item--right event-item--2">
+                            <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg" />
+                            <div class="event-text-wrapper col">
+                                <text class="event-title">飞行宝贝</text>
+                                <text class="event-description">榜单有利</text>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,10 +81,14 @@ $grid-columns: 12;
 }
 
 .col {
+    width: 100%;
     display: flex;
     flex-direction: column;
     @for $i from 1 through $grid-columns {
         @include make-cell($i, column);
+    }
+    & > * {
+        width: 100%;
     }
 }
 
@@ -80,27 +104,125 @@ $grid-columns: 12;
 .page {
     color: black;
 }
+
 .top-image {
     width: 750px;
     height: 184px;
 }
 
-.item-image {
+.mainEntry {
+    margin: 15px;
+}
+.mainEntry-item {
+    margin: 1px;
+    align-items: center;
+}
+.mainEntry-item--0 > .mainEntry-image {
+    border-top-left-radius: 10px;
+}
+.mainEntry-item--2 > .mainEntry-image {
+    border-top-right-radius: 10px;
+}
+.mainEntry-item--6 > .mainEntry-image {
+    border-bottom-right-radius: 10px;
+}
+.mainEntry-item--8 > .mainEntry-image {
+    border-bottom-left-radius: 10px;
+}
+.mainEntry-image {
     width: 100%;
+    height: 150px;
+}
+.mainEntry-title {
+    color: #fff;
+    height: 150px;
+    margin: -150px 0 0 0;
+}
 
+.subEntry-item {
+    padding: 10px 0 33px 0;
+    align-items: center;
 }
-.item-block {
-    border: 1px solid black;
+.subEntry-image {
+    height: 50px;
 }
-.event-item-1 {
-    background-image: url('https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png');
+.subEntry-text {
+    padding: 16px 0 0 0;
+    font-size: 21px;
+    color: #000;
 }
-.event-item-2 {
-    background-image: url('https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg');
+
+.subTitle {
+    margin: 50px 0 20px 18px;
+    font-size: 33px;
+    color: #000;
 }
-.event-item-3 {
-    background-image: url('https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg');
+.inner-image {
+    width: 100%;
 }
+
+.specialOffer-wrapper {
+    padding: 0 15px;
+}
+.specialOffer-image {
+    width: 100%;
+    border-radius: 10px;
+    margin: 6px;
+}
+
+.event-wrapper {
+    padding: 0 15px;
+}
+.event-item {
+    padding: 4px;
+}
+.event-item--right {
+    flex: 1;
+}
+.event-item--0 {
+    .event-image {
+        height: 280px;
+    }
+    .event-text-wrapper {
+        height: 280px;
+        margin: -280px 0 0 0;
+    }
+}
+.event-item--1 {
+    margin-bottom: 4px;
+    .event-image {
+        height: 136px;
+    }
+    .event-text-wrapper {
+        height: 136px;
+        margin: -136px 0 0 0;
+    }
+}
+.event-item--2 {
+    margin-top: 4px;
+    .event-image {
+        height: 136px;
+    }
+    .event-text-wrapper {
+        height: 136px;
+        margin: -136px 0 0 0;
+    }
+}
+.event-image {
+    border-radius: 10px;
+}
+.event-text-wrapper {
+    padding: 10px 0 0 10px;
+}
+.event-title {
+    color: #000;
+    font-size: 23px;
+}
+.event-description {
+    color: #999;
+    font-size: 17px;
+}
+
 </style>
 
 <script>
