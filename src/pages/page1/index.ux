@@ -64,7 +64,7 @@
         config: {
             "backgrounColor": "#FFF",
             "navigationBarBackgroundColor": "#f96263",
-            "navigationBarTitleText": "Qunar",
+            "navigationBarTitleText": "页面1",
             "navigationBarTextStyle": "white",
             tabBar: {
                 list: [

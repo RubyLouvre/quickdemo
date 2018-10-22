@@ -48,8 +48,8 @@
         classUid: 'c1440',
         config: {
             "backgrounColor": "#FFF",
-            "navigationBarBackgroundColor": "#39fcf2",
-            "navigationBarTitleText": "Qunar",
+            "navigationBarBackgroundColor": "#5bc446",
+            "navigationBarTitleText": "页面2",
             "navigationBarTextStyle": "white",
             tabBar: {
                 list: [

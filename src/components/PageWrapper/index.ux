@@ -1,5 +1,5 @@
 <template>
-  <div class="pagewrap" style="padding-bottom: {{tabBar.list.length?'150px': '0px'}}">
+  <div class="pagewrapper" style="padding-bottom: {{tabBar.list.length?'150px': '0px'}}">
     <refresh refreshing="{{refreshing}}" @refresh="onPullDownRefresh">
       <list @scroll="onPageScroll" @scrollbottom="onReachBottom">
         <list-item type='a' style="flex-direction: column;">
@@ -18,7 +18,7 @@
   </div>
 </template>
 <style lang="sass">
-  .pagewrap {
+  .pagewrapper {
     flex: 1;
     flex-direction: column;
     width: 100%;

@@ -1,7 +1,8 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
-    <div class="page">
+   <div class='page'>
         <PageWrapper>
+
             <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
             <div class="mainEntry row">
                 <block for="(index,item) in state.indexPageIcons">
@@ -63,7 +64,7 @@
             </div>
 
         </PageWrapper>
-    </div>
+   </div>
 </template>
 <style lang="sass">
     $grid-columns: 12;
@@ -383,7 +384,7 @@
         render: function () {
             var h = React.createElement;
 
-            return h('div', { 'class': 'page' }, h('image', {
+            return h('div', null, h('image', {
                 'class': 'top-image',
                 src: 'https://s.qunarzz.com/wechatapp/home/banner0510-002.png'
             }), h('div', {
