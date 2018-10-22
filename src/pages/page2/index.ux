@@ -1,10 +1,12 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
-    <PageWrapper>
-        <div>
-            <text>{{state.text}}</text>
-        </div>
-    </PageWrapper>
+    <div>
+        <PageWrapper>
+            <div>
+                <text>{{state.text}}</text>
+            </div>
+        </PageWrapper>
+    </div>
 </template>
 
 <script>
