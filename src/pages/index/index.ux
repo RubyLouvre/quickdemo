@@ -1,11 +1,10 @@
-<import name='PageWrapper' src='../../components/PageWrapper/index'></import>
-
+<import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
     <div class="page">
         <PageWrapper>
             <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
             <div class="mainEntry row">
-                <block for="(index, item) in state.indexPageIcons" >
+                <block for="(index,item) in state.indexPageIcons">
                     <div class="cell-4">
                         <div class="mainEntry-item mainEntry-item--{{index}} col">
                             <image class="mainEntry-image" src="{{item.logoSrc}}" />
@@ -15,7 +14,7 @@
                 </block>
             </div>
             <div class="row">
-                <block for="(index, item) in state.toolData" >
+                <block for="(i6718,item) in state.toolData">
                     <div class="cell-3">
                         <div class="subEntry-item col">
                             <image class="subEntry-image" src="{{item.url}}" />
@@ -26,9 +25,9 @@
             </div>
             <text class="subTitle">特价专区</text>
             <div class="specialOffer-wrapper row">
-                <block for="(index, item) in state.specialOfferData" >
+                <block for="(i7328,item) in state.specialOfferData">
                     <div class="cell-4">
-                        <image class="specialOffer-image inner-image" src="{{item.url}}"/>
+                        <image class="specialOffer-image inner-image" src="{{item.url}}" />
                     </div>
                 </block>
             </div>
@@ -62,315 +61,430 @@
                     </div>
                 </div>
             </div>
+
         </PageWrapper>
     </div>
 </template>
-
 <style lang="sass">
-$grid-columns: 12;
+    $grid-columns: 12;
 
-@mixin make-cell($columns, $direction: row) {
-    & > .cell-#{$columns} {
-        @if $direction == row {
-            width: percentage($columns / $grid-columns);
-        }
-        @if $direction == column {
-            height: percentage($columns / $grid-columns);
+    @mixin make-cell($columns, $direction: row) {
+        &>.cell-#{$columns} {
+            @if $direction==row {
+                width: percentage($columns / $grid-columns);
+            }
+
+            @if $direction==column {
+                height: percentage($columns / $grid-columns);
+            }
         }
     }
-}
 
-.col {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    @for $i from 1 through $grid-columns {
-        @include make-cell($i, column);
+    .col {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        @for $i from 1 through $grid-columns {
+            @include make-cell($i, column);
+        }
+
+        &>* {
+            width: 100%;
+        }
     }
-    & > * {
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        @for $i from 1 through $grid-columns {
+            @include make-cell($i, row);
+        }
+    }
+
+    .page {
+        color: black;
+    }
+
+    .top-image {
+        width: 750px;
+        height: 184px;
+    }
+
+    .mainEntry {
+        margin: 15px;
+    }
+
+    .mainEntry-item {
+        margin: 1px;
+        align-items: center;
+    }
+
+    .mainEntry-item--0>.mainEntry-image {
+        border-top-left-radius: 10px;
+    }
+
+    .mainEntry-item--2>.mainEntry-image {
+        border-top-right-radius: 10px;
+    }
+
+    .mainEntry-item--6>.mainEntry-image {
+        border-bottom-right-radius: 10px;
+    }
+
+    .mainEntry-item--8>.mainEntry-image {
+        border-bottom-left-radius: 10px;
+    }
+
+    .mainEntry-image {
+        width: 100%;
+        height: 150px;
+    }
+
+    .mainEntry-title {
+        color: #fff;
+        height: 150px;
+        margin: -150px 0 0 0;
+    }
+
+    .subEntry-item {
+        padding: 10px 0 33px 0;
+        align-items: center;
+    }
+
+    .subEntry-image {
+        height: 50px;
+    }
+
+    .subEntry-text {
+        padding: 16px 0 0 0;
+        font-size: 21px;
+        color: #000;
+    }
+
+    .subTitle {
+        margin: 50px 0 20px 18px;
+        font-size: 33px;
+        color: #000;
+    }
+
+    .inner-image {
         width: 100%;
     }
-}
 
-.row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    @for $i from 1 through $grid-columns {
-        @include make-cell($i, row);
+    .specialOffer-wrapper {
+        padding: 0 15px;
     }
-}
 
-.page {
-    color: black;
-}
+    .specialOffer-image {
+        width: 100%;
+        border-radius: 10px;
+        margin: 6px;
+    }
 
-.top-image {
-    width: 750px;
-    height: 184px;
-}
+    .event-wrapper {
+        padding: 0 15px;
+    }
 
-.mainEntry {
-    margin: 15px;
-}
-.mainEntry-item {
-    margin: 1px;
-    align-items: center;
-}
-.mainEntry-item--0 > .mainEntry-image {
-    border-top-left-radius: 10px;
-}
-.mainEntry-item--2 > .mainEntry-image {
-    border-top-right-radius: 10px;
-}
-.mainEntry-item--6 > .mainEntry-image {
-    border-bottom-right-radius: 10px;
-}
-.mainEntry-item--8 > .mainEntry-image {
-    border-bottom-left-radius: 10px;
-}
-.mainEntry-image {
-    width: 100%;
-    height: 150px;
-}
-.mainEntry-title {
-    color: #fff;
-    height: 150px;
-    margin: -150px 0 0 0;
-}
+    .event-item {
+        padding: 4px;
+    }
 
-.subEntry-item {
-    padding: 10px 0 33px 0;
-    align-items: center;
-}
-.subEntry-image {
-    height: 50px;
-}
-.subEntry-text {
-    padding: 16px 0 0 0;
-    font-size: 21px;
-    color: #000;
-}
+    .event-item--right {
+        flex: 1;
+    }
 
-.subTitle {
-    margin: 50px 0 20px 18px;
-    font-size: 33px;
-    color: #000;
-}
-.inner-image {
-    width: 100%;
-}
+    .event-item--0 {
+        .event-image {
+            height: 280px;
+        }
 
-.specialOffer-wrapper {
-    padding: 0 15px;
-}
-.specialOffer-image {
-    width: 100%;
-    border-radius: 10px;
-    margin: 6px;
-}
+        .event-text-wrapper {
+            height: 280px;
+            margin: -280px 0 0 0;
+        }
+    }
 
-.event-wrapper {
-    padding: 0 15px;
-}
-.event-item {
-    padding: 4px;
-}
-.event-item--right {
-    flex: 1;
-}
-.event-item--0 {
+    .event-item--1 {
+        margin-bottom: 4px;
+
+        .event-image {
+            height: 136px;
+        }
+
+        .event-text-wrapper {
+            height: 136px;
+            margin: -136px 0 0 0;
+        }
+    }
+
+    .event-item--2 {
+        margin-top: 4px;
+
+        .event-image {
+            height: 136px;
+        }
+
+        .event-text-wrapper {
+            height: 136px;
+            margin: -136px 0 0 0;
+        }
+    }
+
     .event-image {
-        height: 280px;
+        border-radius: 10px;
     }
-    .event-text-wrapper {
-        height: 280px;
-        margin: -280px 0 0 0;
-    }
-}
-.event-item--1 {
-    margin-bottom: 4px;
-    .event-image {
-        height: 136px;
-    }
-    .event-text-wrapper {
-        height: 136px;
-        margin: -136px 0 0 0;
-    }
-}
-.event-item--2 {
-    margin-top: 4px;
-    .event-image {
-        height: 136px;
-    }
-    .event-text-wrapper {
-        height: 136px;
-        margin: -136px 0 0 0;
-    }
-}
-.event-image {
-    border-radius: 10px;
-}
-.event-text-wrapper {
-    padding: 10px 0 0 10px;
-}
-.event-title {
-    color: #000;
-    font-size: 23px;
-}
-.event-description {
-    color: #999;
-    font-size: 17px;
-}
 
+    .event-text-wrapper {
+        padding: 10px 0 0 10px;
+    }
+
+    .event-title {
+        color: #000;
+        font-size: 23px;
+    }
+
+    .event-description {
+        color: #999;
+        font-size: 17px;
+    }
 </style>
-
 <script>
-  import router from '@system.router'
-  import { toPage, getApp } from "../../utils"
-  class P {
-    constructor() {
+    import router from '@system.router'
+    import React from "../../ReactQuick"
+    var getApp = React.getApp
+    function P() {
         this.state = {
-            text: 'nanachi',
-            indexPageIcons: [
-                {
-                    class: 'radius-top-left',
-                    bizTitle: '基础内容',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/hotel2.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/base/index'
-                },
-                {
-                    class: '',
-                    bizTitle: '内置组件',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/flight1.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/native/index/index'
-                },
-                {
-                    class: 'radius-top-right',
-                    bizTitle: '语法',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/train2.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/syntax/index'
-                },
-                {
-                    class: '',
-                    bizTitle: '车票搜索',
-                    businessUrl: '/common/pages/search/index?from=home&bizType=bus',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/bus1.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/ticketSearch/index'
-                },
-                {
-                    class: '',
-                    bizTitle: '日期选择',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/car1.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/calendar/index'
-                },
-                {
-                    class: '',
-                    bizTitle: '船票',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/ship1.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/boat/index'
-                },
-                {
-                    class: 'radius-bottom-left',
-                    bizTitle: '瀑布流',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/vacation2.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/cardList/index'
-                },
-                {
-                    class: '',
-                    bizTitle: '景点·门票',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/ticket1.png',
-                    showSpecialLogo: false,
-                    specialText: '',
-                    url: '../../pages/demo/scenic/index'
-                },
-                {
-                    class: 'radius-bottom-right',
-                    bizTitle: '攻略',
-                    logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/travel2.png',
-                    showSpecialLogo: false,
-                    specialText: 'if测试',
-                    url: '../../pages/demo/strategy/index'
-                }
-            ],
-            toolData: [
-                {
-                    url: 'https://source.qunarzz.com/site/images/wap/home/recommend/dainifei.png',
-                    title: '带你飞'
-                },
-                {
-                    url: 'https://s.qunarzz.com/wechatapp/home/toolbars/book.png',
-                    title: '旅行账本'
-                },
-                {
-                    url: 'https://source.qunarzz.com/site/images/wap/home/recommend/xingchengzhushou.png',
-                    title: '行程助手'
-                },
-                {
-                    url: 'https://source.qunarzz.com/site/images/wap/home/recommend/hangbandongtai.png',
-                    title: '航班动态'
-                }
-            ],
-            specialOfferData: [
-                {
-                    url: 'http://s.qunarzz.com/wechatapp/home/special/flight.jpg',
-                    title: '特价机票'
-                },
-                {
-                    url: 'http://s.qunarzz.com/wechatapp/home/special/ticket.jpg',
-                    title: '优惠门票'
-                },
-                {
-                    url: 'http://s.qunarzz.com/wechatapp/home/special/vacation.jpg',
-                    title: '旅行特价'
-                },
-                {
-                    url: 'http://s.qunarzz.com/wechatapp/home/special/flight.jpg',
-                    title: '特价机票1'
-                },
-                {
-                    url: 'http://s.qunarzz.com/wechatapp/home/special/ticket.jpg',
-                    title: '优惠门票1'
-                },
-                {
-                    url: 'http://s.qunarzz.com/wechatapp/home/special/vacation.jpg',
-                    title: '旅行特价1'
-                }
-            ]
-        }
-        this.props = {
-          list: Array.apply(null, { length: 50 }).map(Math.random)
-        }
-    }
-    onMenuPress() {
-       getApp().showMenu()
-    }
-    onPullDownRefresh(){
-      this.props.list = Array.apply(null, { length: 50 }).map(Math.random)
-    }
-  }
-  export default toPage(P, "/pages/index/index")
-</script>
+            text: "首页",
+            indexPageIcons: [{
+                class: 'radius-top-left',
+                bizTitle: '基础内容',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/hotel2.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/base/index'
+            }, {
+                class: '',
+                bizTitle: '内置组件',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/flight1.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/native/index/index'
+            }, {
+                class: 'radius-top-right',
+                bizTitle: '语法',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/train2.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/syntax/index'
+            }, {
+                class: '',
+                bizTitle: '车票搜索',
+                businessUrl: '/common/pages/search/index?from=home&bizType=bus',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/bus1.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/ticketSearch/index'
+            }, {
+                class: '',
+                bizTitle: '日期选择',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/car1.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/calendar/index'
+            }, {
+                class: '',
+                bizTitle: '船票',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/ship1.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/boat/index'
+            }, {
+                class: 'radius-bottom-left',
+                bizTitle: '瀑布流',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/vacation2.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/cardList/index'
+            }, {
+                class: '',
+                bizTitle: '景点·门票',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/ticket1.png',
+                showSpecialLogo: false,
+                specialText: '',
+                url: '../../pages/demo/scenic/index'
+            }, {
+                class: 'radius-bottom-right',
+                bizTitle: '攻略',
+                logoSrc: 'https://s.qunarzz.com/wechatapp/home/business/travel2.png',
+                showSpecialLogo: false,
+                specialText: 'if测试',
+                url: '../../pages/demo/strategy/index'
+            }],
 
-修复组件引用样式失效的BUG
-修复业务组件使用语法糖失败的BUG
-设计提交时检测样式表是否符合快应用的规范
-设计一套表式表（主要是布局类名）
-设计一套UI库
-快应用的页面父类
-快应用的更多细节收集
-支付宝的webview页面
+            toolData: [{
+                url: 'https://source.qunarzz.com/site/images/wap/home/recommend/dainifei.png',
+                title: '带你飞'
+            }, {
+                url: 'https://s.qunarzz.com/wechatapp/home/toolbars/book.png',
+                title: '旅行账本'
+            }, {
+                url: 'https://source.qunarzz.com/site/images/wap/home/recommend/xingchengzhushou.png',
+                title: '行程助手'
+            }, {
+                url: 'https://source.qunarzz.com/site/images/wap/home/recommend/hangbandongtai.png',
+                title: '航班动态'
+            }],
+            specialOfferData: [{
+                url: 'http://s.qunarzz.com/wechatapp/home/special/flight.jpg',
+                title: '特价机票'
+            }, {
+                url: 'http://s.qunarzz.com/wechatapp/home/special/ticket.jpg',
+                title: '优惠门票'
+            }, {
+                url: 'http://s.qunarzz.com/wechatapp/home/special/vacation.jpg',
+                title: '旅行特价'
+            }, {
+                url: 'http://s.qunarzz.com/wechatapp/home/special/flight.jpg',
+                title: '特价机票1'
+            }, {
+                url: 'http://s.qunarzz.com/wechatapp/home/special/ticket.jpg',
+                title: '优惠门票1'
+            }, {
+                url: 'http://s.qunarzz.com/wechatapp/home/special/vacation.jpg',
+                title: '旅行特价1'
+            }]
+
+        };
+    }
+
+    P = React.toClass(P, React.Component, {
+        componentDidMount: function () {
+            // eslint-disable-next-line
+            console.log('page did mount!');
+        },
+        componentWillMount: function () {
+            // eslint-disable-next-line
+            console.log('page will mount!');
+        },
+        componentDidShow: function () {
+            // eslint-disable-next-line
+            console.log('page will show!');
+        },
+        onMenuPress: function () {
+            React.api.showModal({
+                title: '提示',
+                content: '该部分仅展示，无具体功能!',
+                showCancel: false
+            });
+        },
+        render: function () {
+            var h = React.createElement;
+
+            return h('div', { 'class': 'page' }, h('image', {
+                'class': 'top-image',
+                src: 'https://s.qunarzz.com/wechatapp/home/banner0510-002.png'
+            }), h('div', {
+                'class': 'mainEntry row'
+            }, this.state.indexPageIcons.map(function (item, index) {
+                return h('div', {
+                    'class': 'cell-4'
+                }, h('div', {
+                    'class': 'mainEntry-item mainEntry-item--' + index + ' col'
+                }, h('image', {
+                    'class': 'mainEntry-image',
+                    src: item.logoSrc
+                }), h('text', {
+                    'class': 'mainEntry-title'
+                }, item.bizTitle)));
+            }, this)), h('div', {
+                'class': 'row'
+            }, this.state.indexPageIcons.map(function (item) {
+                return h('div', {
+                    'class': 'cell-3'
+                }, h('div', {
+                    'class': 'subEntry-item col'
+                }, h('image', {
+                    'class': 'subEntry-image',
+                    src: item.url
+                }), h('text', {
+                    'class': 'subEntry-text'
+                }, item.title)));
+            }, this)), h('text', {
+                'class': 'subTitle'
+            }, '特价专区'), h('div', {
+                'class': 'specialOffer-wrapper row'
+            }, this.state.specialOfferData.map(function (item) {
+                return h('div', {
+                    'class': 'cell-4'
+                }, h('image', {
+                    'class': 'specialOffer-image inner-image',
+                    src: item.url
+                }));
+            }, this)), h('text', {
+                'class': 'subTitle'
+            }, '活动专区'), h('div', {
+                'class': 'event-wrapper row'
+            }, h('div', {
+                'class': 'cell-6'
+            }, h('div', {
+                'class': 'col event-item event-item--0'
+            }, h('image', {
+                'class': 'event-image inner-image',
+                src: 'https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png'
+            }), h('div', {
+                'class': 'event-text-wrapper col'
+            }, h('text', {
+                'class': 'event-title'
+            }, '何时飞'), h('text', {
+                'class': 'event-description'
+            }, '机票趋势早知道')))), h('div', {
+                'class': 'cell-6'
+            }, h('div', {
+                'class': 'col event-item'
+            }, h('div', {
+                'class': 'col event-item--right event-item--1'
+            }, h('image', {
+                'class': 'event-image inner-image',
+                src: 'https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg'
+            }), h('div', {
+                'class': 'event-text-wrapper col'
+            }, h('text', {
+                'class': 'event-title'
+            }, '人格测试'), h('text', {
+                'class': 'event-description'
+            }, '简直惊悚'))), h('div', {
+                'class': 'col event-item--right event-item--2'
+            }, h('image', {
+                'class': 'event-image inner-image',
+                src: 'https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg'
+            }), h('div', {
+                'class': 'event-text-wrapper col'
+            }, h('text', {
+                'class': 'event-title'
+            }, '飞行宝贝'), h('text', {
+                'class': 'event-description'
+            }, '榜单有利')))))));
+        },
+
+        classUid: 'c1440',
+        config: {
+            "backgrounColor": "#FFF",
+            "navigationBarBackgroundColor": "#feb64e",
+            "navigationBarTitleText": "Qunar",
+            "navigationBarTextStyle": "white",
+            tabBar: {
+                list: [
+                    { text: "页面1", pagePath: "pages/page1/index" },
+                    { text: "页面2", pagePath: "pages/page2/index" },
+                    { text: "页面3", pagePath: "pages/page3/index" }
+                ]
+            }
+        }
+    }, {});
+    P = React.registerPage(P, 'pages/index/index');
+
+    export default P;
+</script>

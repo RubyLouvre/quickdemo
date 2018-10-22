@@ -1,49 +1,66 @@
-<import name='PageWrapper' src='../../components/PageWrapper/index'></import>
+<import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
-  <!-- template里只能有一个根节点 -->
-  <div class="demo-page">
     <PageWrapper>
-      <text class="title">{{props.text}}</text>
-      <text>这是第三页</text>
+        <div>
+            <text>{{state.text}}</text>
+        </div>
     </PageWrapper>
-  </div>
 </template>
-<style lang="sass">
-  .demo-page {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 
-  .title {
-    font-size: 40px;
-    text-align: center;
-  }
-</style>
 <script>
-  import { toPage, getApp } from "../../utils"
-  class P {
-    constructor() {
-      this.props = {
-        text: '欢迎打开page3!'
-      }
+    import router from '@system.router'
+    import React from "../../ReactQuick"
+    var getApp = React.getApp
+    function P() {
+        this.state = {
+            text: "page3"
+        };
     }
-    onReady(){
-      console.log(P.config.tabBar.list.length, "有没有tabBar.list")
-    }
-  }
-  P.config = {
-    navigationBarTitleText: "page3标题",
-    navigationBarBackgroundColor: "#fdc859",
-    tabBar: {
-      backgroundColor: "#f9faf5",
-      color: "#000",
-      selectedColor: "#48adc4",
-      list: [
 
-      ]
-    }
-  }
-  export default toPage(P, "/pages/page3/index")
+    P = React.toClass(P, React.Component, {
+        componentDidMount: function () {
+            // eslint-disable-next-line
+            console.log('page3 did mount!');
+        },
+        componentWillMount: function () {
+            // eslint-disable-next-line
+            console.log('page3 will mount!');
+        },
+        componentDidShow: function () {
+            // eslint-disable-next-line
+            console.log('page3 will show!');
+        },
+        onMenuPress: function () {
+            React.api.showModal({
+                title: '提示',
+                content: '该部分仅展示，无具体功能!',
+                showCancel: false
+            });
+        },
+        render: function () {
+            var h = React.createElement;
 
+            return h('view', {
+                'class': 'page'
+            }, h('text', null, this.state.text));
+        },
+
+        classUid: 'c1440',
+        config: {
+            "backgrounColor": "#FFF",
+            "navigationBarBackgroundColor": "##1b9198",
+            "navigationBarTitleText": "Qunar",
+            "navigationBarTextStyle": "white",
+            tabBar: {
+                list: [
+                    { text: "首页", pagePath: "pages/index/index" },
+                    { text: "页面1", pagePath: "pages/page1/index" },
+                    { text: "页面2", pagePath: "pages/page2/index" }
+                ]
+            }
+        }
+    }, {});
+    P = React.registerPage(P, 'pages/page3/index');
+
+    export default P;
 </script>

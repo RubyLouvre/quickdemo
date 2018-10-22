@@ -1,0 +1,25 @@
+
+
+<import name="PageWrapper" src="../../../components/PageWrapper/index.ux"></import>
+<template>
+   <PageWrapper>
+     <view><text>页面</text></view>
+   </PageWrapper>
+</template>
+<script>
+import React from '../../../ReactQuick.js';
+
+function P() {}
+
+P = React.toClass(P, React.Component, {
+    render: function () {
+        var h = React.createElement;
+
+        return h('view', null, h('text', null, '\u9875\u9762'));
+    },
+    classUid: 'c155'
+}, {});
+P = React.registerPage(P, 'pages/demo/index/index');
+
+export default P
+</script>

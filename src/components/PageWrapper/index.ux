@@ -10,9 +10,9 @@
     <div class="tabBar" if="{{tabBar.list.length}}" style="background-color:{{tabBar.backgroundColor}}">
       <div class="tab" for="(index, item) in tabBar.list" onclick="onSelected(item)">
         <image src="{{ currentPath === item.pagePath ? item.selectedIconPath : item.iconPath }}" />
-        <a style="color:{{ currentPath === item.pagePath ? tabBar.selectedColor: tabBar.color }}">
+        <text style="color:{{ currentPath === item.pagePath ? tabBar.selectedColor: tabBar.color }}">
           {{item.text}}
-        </a>
+        </text>
       </div>
     </div>
   </div>
@@ -50,10 +50,8 @@
   }
 </style>
 <script>
-  import prompt from '@system.prompt';
-  import router from '@system.router'
-  import { shareObject, getApp } from '../../utils';
-
+  import React from '../../ReactQuick.js';
+  var { shareObject, getApp } = React
   export default {
     props: {
       tabBar: Object,
@@ -76,7 +74,7 @@
       if (cc.onReachBottom) {
         cc.onReachBottom(e)
       }
-      prompt.showToast({ message: 'reach bottom' });
+      React.api.showToast({ title: 'reach bottom' });
     },
     onPageScroll(e) {
       var cc = shareObject.page;
@@ -93,8 +91,8 @@
       if (page.onTabItemTap) {
         page.onTabItemTap(item)
       }
-      router.push({
-        uri: item.pagePath
+      React.api.navigateTo({
+        url: item.pagePath
       })
     },
     onPullDownRefresh() {
@@ -103,7 +101,7 @@
       var page = shareObject.page;
       if (cc.enablePullDownRefresh && page.onPullDownRefresh) {
         page.onPullDownRefresh()
-        prompt.showToast({ message: 'refreshed' });
+        React.api.showToast({ title: 'refreshed' });
       }
       this.refreshing = true
       setTimeout(() => {
@@ -128,7 +126,7 @@
       if (tabBar && tabBar.list && tabBar.list.length) {
         tabBar.backgroundColor = tabBar.backgroundColor || "#f9faf5";
         tabBar.color = tabBar.color || "#000";
-        tabBar.selectedColor = tabBar.selectedColor || "48adc4";
+        tabBar.selectedColor = tabBar.selectedColor || "#48adc4";
         instance.tabBar = tabBar;
       }
     }

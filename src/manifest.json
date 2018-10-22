@@ -31,24 +31,12 @@
       },
       "pages/page3": {
         "component": "index"
-      },
-      "pages/About": {
-        "component": "index"
       }
     }
   },
   "display": {
     "titleBarBackgroundColor": "#f2f2f2",
     "titleBarTextColor": "#414141",
-    "menu": true,
-    "pages": {
-      "pages/index": {
-        "titleBarText": "示例页",
-        "menu": false
-      },
-      "pages/About": {
-        "menu": false
-      }
-    }
+    "menu": true
   }
 }

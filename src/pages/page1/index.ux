@@ -1,78 +1,81 @@
-<import name='Dog' src='../../components/Dog/index'></import>
-<import name='PageWrapper' src='../../components/PageWrapper/index'></import>
-
+<import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
-  <!-- template里只能有一个根节点 -->
-  <div class="demo-page">
     <PageWrapper>
-      <text class="title">{{props.text}}</text>
-     <div><Dog props="{{props.props}}"></Dog></div>
-      <text>xxxxx</text>
+        <div>
+            <text>{{state.text}}</text>
+            <div for="(index, item) in state.list">
+                <text>{{item}}</text>
+            </div>
+        </div>
     </PageWrapper>
-  </div>
 </template>
 
-<style lang="sass">
-  .demo-page {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .title {
-    font-size: 40px;
-    text-align: center;
-  }
-</style>
-
 <script>
-  import { toPage, getApp } from "../../utils"
-  import prompt from '@system.prompt';
-  class P {
-    constructor() {
-      this.state = {
-        text: '欢迎打开page1'
-      }
-      this.props = {
-        props: {
-          name: "xxx",
-          age: 12
-        }
-      }
-    }
-    onMenuPress() {
-       getApp().showMenu()
-    }
-    onReady() {
-      console.log(this.wx)
-      prompt.showToast({
-        message: JSON.stringify(this.wx.$page),
-        duration: 1
-      })
+    import router from '@system.router'
+    import React from "../../ReactQuick"
+    var getApp = React.getApp
+    function P() {
+        this.state = {
+            text: "page1",
+            list: Array.apply(null, { length: 50 }).map(Math.random)
+        };
+        console.log(this.state)
     }
 
-    /**
-     * 当用户点击菜单按钮时触发，调用app中定义的方法showMenu
-     * 注意：使用加载器测试`创建桌面快捷方式`功能时，请先在`系统设置`中打开`应用加载器`的`桌面快捷方式`权限
-     */
-    onMenuPress() {
-      getApp().showMenu()
-      // this.$app.$def.showMenu()
-    }
-  }
-  P.config = {
-    navigationBarTitleText: "page1标题",
-    navigationBarBackgroundColor: "#1cafc5",
-    tabBar: {
-      backgroundColor: "#f9faf5",
-      color: "#000",
-      selectedColor: "#48adc4",
-      list: [
-        { text: "tab aaa", pagePath: "pages/page1" },
-        { text: "tab bbb", pagePath: "pages/page2" },
-        { text: "tab ccc", pagePath: "pages/page3" }
-      ]
-    }
-  }
-  export default toPage(P, "/pages/page1/index")
+    P = React.toClass(P, React.Component, {
+        componentDidMount: function () {
+            // eslint-disable-next-line
+            console.log('page1 did mount!');
+        },
+        componentWillMount: function () {
+            // eslint-disable-next-line
+            console.log('page1 will mount!');
+        },
+        componentDidShow: function () {
+            // eslint-disable-next-line
+            console.log('page1 will show!');
+        },
+        onMenuPress: function () {
+            React.api.showModal({
+                title: '提示',
+                content: '该部分仅展示，无具体功能!',
+                showCancel: false
+            });
+        },
+        onPullDownRefresh(){
+            this.setState({
+                list: Array.apply(null, { length: 50 }).map(Math.random)
+            })
+       },
+
+        render: function () {
+            var h = React.createElement;
+
+            return h('view', {
+                'class': 'page'
+            }, h('text', null, this.state.text),
+               h('div', null, this.state.list.map(function(item){
+                  return h('text', null, item)
+               }))
+            );
+        },
+
+        classUid: 'c1440',
+        config: {
+            "backgrounColor": "#FFF",
+            "navigationBarBackgroundColor": "#f96263",
+            "navigationBarTitleText": "Qunar",
+            "navigationBarTextStyle": "white",
+            tabBar: {
+                list: [
+                    { text: "首页", pagePath: "pages/index/index" },
+                    { text: "页面2", pagePath: "pages/page2/index" },
+                    { text: "页面3", pagePath: "pages/page3/index" }
+                ]
+            }
+        }
+    }, {});
+    P = React.registerPage(P, 'pages/page1/index');
+
+    export default P;
 </script>
