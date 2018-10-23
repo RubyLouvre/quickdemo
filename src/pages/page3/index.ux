@@ -4,6 +4,8 @@
         <PageWrapper>
             <div>
                 <text>{{state.text}}</text>
+                <div onclick="dispatchEvent" data-click-uid="e1096" data-class-uid="c630">
+                    <text>点击</text></div>
             </div>
         </PageWrapper>
     </div>
@@ -39,12 +41,23 @@
                 showCancel: false
             });
         },
+        click: function() {
+            React.api.showModal({
+                title: "ssss"
+            })
+        },
+
         render: function () {
             var h = React.createElement;
 
             return h('view', {
                 'class': 'page'
-            }, h('text', null, this.state.text));
+            }, h('text', null, this.state.text), h('view', {
+                onClick: this.click,
+                'data-click-uid': 'e1096',
+                'data-class-uid': 'c1440'
+            }, '点击'));
+
         },
 
         classUid: 'c1440',
