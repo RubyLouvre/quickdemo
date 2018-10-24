@@ -1,7 +1,8 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
+
 <template>
-    <div class="page">
-        <PageWrapper>
+    <PageWrapper>
+        <div class='page'>
             <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
             <div class="mainEntry row">
                 <block for="(index,item) in state.indexPageIcons">
@@ -61,9 +62,8 @@
                     </div>
                 </div>
             </div>
-
-        </PageWrapper>
-    </div>
+        </div>
+    </PageWrapper>
 </template>
 <style lang="sass">
     $grid-columns: 12;
@@ -79,10 +79,13 @@
             }
         }
     }
-    .a-href {
-      width: 100%;
-      height: 150px;
+
+    .page {
+        flex: 1;
+        flex-direction: column;
+        width: 100%;
     }
+
     .col {
         width: 100%;
         display: flex;
@@ -107,9 +110,7 @@
         }
     }
 
-    .page {
-        color: black;
-    }
+
 
     .top-image {
         width: 750px;
@@ -255,7 +256,7 @@
     }
 </style>
 <script>
-    import router from '@system.router'
+    //import router from '@system.router'
     import React from "../../ReactQuick"
     var getApp = React.getApp
     function P() {
@@ -366,15 +367,15 @@
     P = React.toClass(P, React.Component, {
         componentDidMount: function () {
             // eslint-disable-next-line
-            console.log('page did mount!');
+            console.log('index did mount!');
         },
         componentWillMount: function () {
             // eslint-disable-next-line
-            console.log('page will mount!');
+            console.log('index will mount!');
         },
         componentDidShow: function () {
             // eslint-disable-next-line
-            console.log('page will show!');
+            console.log('index will show!');
         },
         onMenuPress: function () {
             React.api.showModal({
@@ -492,6 +493,6 @@
     }, {});
     console.log(1111)
     P = React.registerPage(P, 'pages/index/index');
-
+    console.log('pages/index/index 测试页面执行次数')
     export default P;
 </script>

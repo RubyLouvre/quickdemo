@@ -1,10 +1,15 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
+<import name="anu-animal" src="../../components/Animal/index.ux"></import>
+
 <template>
-    <PageWrapper>
-        <div>
-            <text>{{state.text}}</text>
-        </div>
-    </PageWrapper>
+    <div>
+        <PageWrapper>
+            <div>
+                <text>{{state.text}}</text>
+                <anu-animal></anu-animal>
+            </div>
+        </PageWrapper>
+    </div>
 </template>
 
 <script>
@@ -42,14 +47,19 @@
 
             return h('view', {
                 'class': 'page'
-            }, h('text', null, this.state.text));
+            }, h('text', null, this.state.text),
+              h(React.useComponent, {
+                age: 12,
+                is: "Animal"
+            })
+            );
         },
 
         classUid: 'c1440',
         config: {
             "backgrounColor": "#FFF",
-            "navigationBarBackgroundColor": "#39fcf2",
-            "navigationBarTitleText": "Qunar",
+            "navigationBarBackgroundColor": "#5bc446",
+            "navigationBarTitleText": "页面2",
             "navigationBarTextStyle": "white",
             tabBar: {
                 list: [

@@ -1,15 +1,24 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
+       
     <PageWrapper>
-        <div>
+        <div class='page'>
             <text>{{state.text}}</text>
             <div for="(index, item) in state.list">
                 <text>{{item}}</text>
             </div>
         </div>
     </PageWrapper>
+    
 </template>
+<style>
+      .page{
+        flex: 1;
+        flex-direction: column;
+        width: 100%;
+    }
 
+</style>
 <script>
     import router from '@system.router'
     import React from "../../ReactQuick"
@@ -63,9 +72,10 @@
         classUid: 'c1440',
         config: {
             "backgrounColor": "#FFF",
-            "navigationBarBackgroundColor": "#f96263",
-            "navigationBarTitleText": "Qunar",
+            "navigationBarBackgroundColor": "#6097fc",
+            "navigationBarTitleText": "页面1",
             "navigationBarTextStyle": "white",
+            enablePullDownRefresh: true,
             tabBar: {
                 list: [
                     { text: "首页", pagePath: "pages/index/index" },
