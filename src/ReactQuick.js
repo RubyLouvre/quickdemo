@@ -1,5 +1,5 @@
 /**
- * 运行于快应用的React by 司徒正美 Copyright 2018-10-23
+ * 运行于快应用的React by 司徒正美 Copyright 2018-10-24
  * IE9+
  */
 
@@ -1943,12 +1943,8 @@ function hyphen(target) {
     return target.replace(rhyphen, '$1-$2').toLowerCase();
 }
 function transform(obj) {
-    var _this = this;
     return Object.keys(obj).map(function (item) {
         var value = obj[item].toString();
-        value = value.replace(/(\d+)px/gi, function (str, match) {
-            return _this.pxTransform(match);
-        });
         return hyphen(item) + ': ' + value;
     }).join(';');
 }
@@ -1957,7 +1953,7 @@ function toStyle(obj, props, key) {
         var str = transform.call(this, obj);
         props[key] = str;
     } else {
-        console.warn('props 为空');
+        console.warn('toStyle生成样式失败，key为', key);
     }
     return obj;
 }
@@ -2053,6 +2049,7 @@ function createRouter(name) {
 }
 var api = {
     showModal: function showModal(obj) {
+        obj.showCancel = obj.showCancel === false ? false : true;
         var buttons = [{
             text: obj.confirmText,
             color: obj.confirmColor
@@ -2066,6 +2063,11 @@ var api = {
         obj.buttons = obj.confirmText ? buttons : [];
         obj.message = obj.content;
         delete obj.content;
+        var fn = obj['success'];
+        obj['success'] = function (res) {
+            res.confirm = !res.index;
+            fn && fn(res);
+        };
         var prompt = require('@system.prompt');
         prompt.showDialog(obj);
     },
@@ -2076,9 +2078,25 @@ var api = {
         prompt.showToast(obj);
     },
     hideToast: noop,
+    showActionSheet: function showActionSheet(obj) {
+        var prompt = require('@system.prompt');
+        prompt.showContextMenu(obj);
+    },
     navigateTo: createRouter('push'),
     redirectTo: createRouter('replace'),
-    navigateBack: createRouter('back')
+    navigateBack: createRouter('back'),
+    vibrateLong: function vibrateLong() {
+        var vibrator = require('@system.vibrator');
+        vibrator.vibrate();
+    },
+    vibrateShort: function vibrateShort() {
+        var vibrator = require('@system.vibrator');
+        vibrator.vibrate();
+    },
+    share: function share(obj) {
+        var share = require('@system.share');
+        share.share(obj);
+    }
 };
 
 var win = getWindow();
