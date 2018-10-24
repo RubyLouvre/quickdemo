@@ -6,7 +6,7 @@
             <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
             <div class="mainEntry row">
                 <block for="(index,item) in state.indexPageIcons">
-                    <div class="cell-4" onclick="routePagePush">
+                    <div class="cell-4" >
                         <div class="mainEntry-item mainEntry-item--{{index}} col"  data-url="{{item.url}}">
                             <image class="mainEntry-image" src="{{item.logoSrc}}" />
                             <text class="mainEntry-title">{{item.bizTitle}}</text>
@@ -383,9 +383,6 @@
                 content: '该部分仅展示，无具体功能!',
                 showCancel: false
             });
-        },
-        routePagePush: function(e) {
-            console.log('e', e)
         },
         render: function () {
             var h = React.createElement;
