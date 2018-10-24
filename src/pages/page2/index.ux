@@ -1,9 +1,12 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
+<import name="anu-animal" src="../../components/Animal/index.ux"></import>
+
 <template>
     <div>
         <PageWrapper>
             <div>
                 <text>{{state.text}}</text>
+                <anu-animal></anu-animal>
             </div>
         </PageWrapper>
     </div>
@@ -44,7 +47,12 @@
 
             return h('view', {
                 'class': 'page'
-            }, h('text', null, this.state.text));
+            }, h('text', null, this.state.text),
+              h(React.useComponent, {
+                age: 12,
+                is: "Animal"
+            })
+            );
         },
 
         classUid: 'c1440',

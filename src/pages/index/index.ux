@@ -1,68 +1,69 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
+
 <template>
-        <PageWrapper>
-            <div class='page'>
-                <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
-                <div class="mainEntry row">
-                    <block for="(index,item) in state.indexPageIcons">
-                        <div class="cell-4">
-                            <div class="mainEntry-item mainEntry-item--{{index}} col">
-                                <image class="mainEntry-image" src="{{item.logoSrc}}" />
-                                <text class="mainEntry-title">{{item.bizTitle}}</text>
-                            </div>
-                        </div>
-                    </block>
-                </div>
-                <div class="row">
-                    <block for="(i6718,item) in state.toolData">
-                        <div class="cell-3">
-                            <div class="subEntry-item col">
-                                <image class="subEntry-image" src="{{item.url}}" />
-                                <text class="subEntry-text">{{item.title}}</text>
-                            </div>
-                        </div>
-                    </block>
-                </div>
-                <text class="subTitle">特价专区</text>
-                <div class="specialOffer-wrapper row">
-                    <block for="(i7328,item) in state.specialOfferData">
-                        <div class="cell-4">
-                            <image class="specialOffer-image inner-image" src="{{item.url}}" />
-                        </div>
-                    </block>
-                </div>
-                <text class="subTitle">活动专区</text>
-                <div class="event-wrapper row">
-                    <div class="cell-6">
-                        <div class="col event-item event-item--0">
-                            <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png" />
-                            <div class="event-text-wrapper col">
-                                <text class="event-title">何时飞</text>
-                                <text class="event-description">机票趋势早知道</text>
-                            </div>
+    <PageWrapper>
+        <div class='page'>
+            <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
+            <div class="mainEntry row">
+                <block for="(index,item) in state.indexPageIcons">
+                    <div class="cell-4">
+                        <div class="mainEntry-item mainEntry-item--{{index}} col">
+                            <image class="mainEntry-image" src="{{item.logoSrc}}" />
+                            <text class="mainEntry-title">{{item.bizTitle}}</text>
                         </div>
                     </div>
-                    <div class="cell-6">
-                        <div class="col event-item">
-                            <div class="col event-item--right event-item--1">
-                                <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg" />
-                                <div class="event-text-wrapper col">
-                                    <text class="event-title">人格测试</text>
-                                    <text class="event-description">简直惊悚</text>
-                                </div>
+                </block>
+            </div>
+            <div class="row">
+                <block for="(i6718,item) in state.toolData">
+                    <div class="cell-3">
+                        <div class="subEntry-item col">
+                            <image class="subEntry-image" src="{{item.url}}" />
+                            <text class="subEntry-text">{{item.title}}</text>
+                        </div>
+                    </div>
+                </block>
+            </div>
+            <text class="subTitle">特价专区</text>
+            <div class="specialOffer-wrapper row">
+                <block for="(i7328,item) in state.specialOfferData">
+                    <div class="cell-4">
+                        <image class="specialOffer-image inner-image" src="{{item.url}}" />
+                    </div>
+                </block>
+            </div>
+            <text class="subTitle">活动专区</text>
+            <div class="event-wrapper row">
+                <div class="cell-6">
+                    <div class="col event-item event-item--0">
+                        <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1808/c3/dda9c77c3b1d8802.png" />
+                        <div class="event-text-wrapper col">
+                            <text class="event-title">何时飞</text>
+                            <text class="event-description">机票趋势早知道</text>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-6">
+                    <div class="col event-item">
+                        <div class="col event-item--right event-item--1">
+                            <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1808/3b/fd717d94ed8b6102.jpg" />
+                            <div class="event-text-wrapper col">
+                                <text class="event-title">人格测试</text>
+                                <text class="event-description">简直惊悚</text>
                             </div>
-                            <div class="col event-item--right event-item--2">
-                                <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg" />
-                                <div class="event-text-wrapper col">
-                                    <text class="event-title">飞行宝贝</text>
-                                    <text class="event-description">榜单有利</text>
-                                </div>
+                        </div>
+                        <div class="col event-item--right event-item--2">
+                            <image class="event-image inner-image" src="https://img1.qunarzz.com/order/comp/1806/1c/61cd118da20ec702.jpg" />
+                            <div class="event-text-wrapper col">
+                                <text class="event-title">飞行宝贝</text>
+                                <text class="event-description">榜单有利</text>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </PageWrapper>
+        </div>
+    </PageWrapper>
 </template>
 <style lang="sass">
     $grid-columns: 12;
@@ -78,7 +79,8 @@
             }
         }
     }
-    .page{
+
+    .page {
         flex: 1;
         flex-direction: column;
         width: 100%;
@@ -365,15 +367,15 @@
     P = React.toClass(P, React.Component, {
         componentDidMount: function () {
             // eslint-disable-next-line
-            console.log('page did mount!');
+            console.log('index did mount!');
         },
         componentWillMount: function () {
             // eslint-disable-next-line
-            console.log('page will mount!');
+            console.log('index will mount!');
         },
         componentDidShow: function () {
             // eslint-disable-next-line
-            console.log('page will show!');
+            console.log('index will show!');
         },
         onMenuPress: function () {
             React.api.showModal({
@@ -385,7 +387,7 @@
         render: function () {
             var h = React.createElement;
 
-            return h('div', {'class':'page'}, h('image', {
+            return h('div', { 'class': 'page' }, h('image', {
                 'class': 'top-image',
                 src: 'https://s.qunarzz.com/wechatapp/home/banner0510-002.png'
             }), h('div', {
@@ -487,6 +489,6 @@
         }
     }, {});
     P = React.registerPage(P, 'pages/index/index');
-
+    console.log('pages/index/index 测试页面执行次数')
     export default P;
 </script>
