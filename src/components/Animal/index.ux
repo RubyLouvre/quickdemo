@@ -1,6 +1,6 @@
 <template>
     <div>
-        <text>名字：{{state.name}} 年龄：{{state.age}} 岁</text>
+        <text>名字{{state.name}} ; {{state.age}} 岁</text>
         <div onclick="dispatchEvent" data-tap-uid="e1602" data-class-uid="c901">换一个年龄</div>
     </div>
 </template>
@@ -10,7 +10,7 @@ import React from '../../ReactQuick.js';
 function Animal(props) {
     this.props = props;
     this.state = {
-        name: props.name || "22",
+        name: props.name,
         age: props.age || 1
     };
 } 
@@ -51,6 +51,6 @@ Animal = React.toClass(Animal, React.Component, {
     }
 });
 Animal = React.registerComponent(Animal, 'Animal');
-
+console.log(Animal)
 export default Animal;
 </script>

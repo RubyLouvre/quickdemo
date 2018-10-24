@@ -1842,7 +1842,6 @@ var Renderer$1 = createRenderer({
     },
     onBeforeRender: function onBeforeRender(fiber) {
         var type = fiber.type;
-        console.log(fiber.name, 'onBeforeRender')
         if (type.reactInstances) {
             var name = fiber.name;
             var noMount = !fiber.hasMounted;
@@ -1860,9 +1859,8 @@ var Renderer$1 = createRenderer({
                     console.log('onBeforeRender时更新', name, instance.props);
                 }
                 if (!instance.wx) {
-                    console.log('onBeforeRender时更新', name, '没有wx',type, instance);
+                    console.log('onBeforeRender时更新', name, '没有wx');
                     type.reactInstances.push(instance);
-                    console.log(type.reactInstances.length, "+++++")
                 }
             }
         }
@@ -1967,23 +1965,16 @@ function useComponent(props) {
     delete props.is;
     var args = [].slice.call(arguments, 2);
     args.unshift(clazz, props);
-    console.log('使用组件', is, clazz);
+    console.log('使用组件', is);
     return createElement.apply(null, args);
 }
 
 var shareObject = {};
 function getApp() {
-    console.log("getApp", shareObject.app)
     return shareObject.app;
 }
-var pages = {}
 function registerPage(PageClass, path) {
-    console.log("注册页面", path)
     PageClass.reactInstances = [];
-    if(pages[path]){
-        return
-    }
-    pages[path] = 1;
     var instance;
     var config = {
         private: {
@@ -1993,7 +1984,6 @@ function registerPage(PageClass, path) {
         },
         dispatchEvent: eventSystem.dispatchEvent,
         onInit: function onInit(query) {
-            console.log("registerPage", path, 'onInit')
             instance = render(createElement(PageClass, {
                 path: path,
                 query: query,
@@ -2051,7 +2041,6 @@ function createRouter(name) {
             });
             return '';
         }).replace(/\/index$/, '');
-        console.log("uri")
         router[name]({
             uri: uri,
             params: params
@@ -2092,20 +2081,28 @@ var win = getWindow();
 var React = void 0;
 var render$1 = Renderer$1.render;
 function registerComponent(type, name) {
-    console.log("registerComponent",name)
-    registeredComponents[name] = type
+    registeredComponents[name] = type;
     var reactInstances = type.reactInstances = [];
     var wxInstances = type.wxInstances = [];
     return {
-        private: {
-            props: {},
-            state: {},
-            context: {}
+        props: {
+            props: {
+                type: Object,
+                default: {}
+            },
+            state: {
+                type: Object,
+                default: {}
+            },
+            context: {
+                type: Object,
+                default: {}
+            }
         },
         onInit: function onInit() {
             var instance = reactInstances.shift();
             if (instance) {
-                console.log("created时为", name, "添加wx",instance);
+                console.log("created时为", name, "添加wx");
                 instance.wx = this;
                 this.reactInstance = instance;
             } else {

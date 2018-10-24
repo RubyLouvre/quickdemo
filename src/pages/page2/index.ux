@@ -50,6 +50,7 @@
             }, h('text', null, this.state.text),
               h(React.useComponent, {
                 age: 12,
+                name: "dog",
                 is: "Animal"
             })
             );
