@@ -1,5 +1,5 @@
 /**
- * 运行于快应用的React by 司徒正美 Copyright 2018-10-24
+ * 运行于快应用的React by 司徒正美 Copyright 2018-10-23
  * IE9+
  */
 
@@ -1943,8 +1943,12 @@ function hyphen(target) {
     return target.replace(rhyphen, '$1-$2').toLowerCase();
 }
 function transform(obj) {
+    var _this = this;
     return Object.keys(obj).map(function (item) {
         var value = obj[item].toString();
+        value = value.replace(/(\d+)px/gi, function (str, match) {
+            return _this.pxTransform(match);
+        });
         return hyphen(item) + ': ' + value;
     }).join(';');
 }
@@ -1953,7 +1957,7 @@ function toStyle(obj, props, key) {
         var str = transform.call(this, obj);
         props[key] = str;
     } else {
-        console.warn('toStyle生成样式失败，key为', key);
+        console.warn('props 为空');
     }
     return obj;
 }
