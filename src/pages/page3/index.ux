@@ -1,66 +1,268 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
 <template>
-    <PageWrapper>
-        <div>
-            <text>{{state.text}}</text>
+  <PageWrapper>
+    <div class="page">
+      <text>{{state.text}}</text>
+      <div class="content">
+        <div onclick="dispatchEvent" class="item" data-click-uid="e1142" data-class-uid="c1321">
+          <text>showModal</text>
         </div>
-    </PageWrapper>
+        <div onclick="dispatchEvent" class="item" data-click-uid="e1360" data-class-uid="c1321">
+          <text>显示上下文菜单</text>
+        </div>
+        <div onclick="dispatchEvent" class="item" data-click-uid="e1569" data-class-uid="c1321">
+          <text>通知消息</text>
+        </div>
+        <div onclick="dispatchEvent" class="item" data-click-uid="e1765" data-class-uid="c1321">
+          <text>震动</text>
+        </div>
+        <div onclick="dispatchEvent" class="item" data-click-uid="e1958" data-class-uid="c1321">
+          <text>分享</text>
+        </div>
+        <div onclick="dispatchEvent" class="item" data-click-uid="e2149" data-class-uid="c1321">
+          <text>文件上传2222</text>
+        </div>
+        <div onclick="dispatchEvent" class="item" data-click-uid="e2347" data-class-uid="c1321">
+          <text>文件下载</text>
+        </div>
+      </div>
+    </div>
+  </PageWrapper>
 </template>
+<style>
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .item {
+    width: 100%;
+    border: 1px solid #eee;
+    padding: 24px;
+  }
+
+  .button {
+    width: 120px;
+    height: 80px;
+    display: black;
+
+  }
+</style>
 
 <script>
-    import router from '@system.router'
-    import React from "../../ReactQuick"
-    var getApp = React.getApp
-    function P() {
-        this.state = {
-            text: "page3"
-        };
-    }
+  import router from '@system.router'
+  import React from "../../ReactQuick"
+  import prompt from '@system.prompt'
+  import notification from '@system.notification'
+  import vibrator from '@system.vibrator'
+  import share from '@system.share'
+  import request from '@system.request'
+  import media from '@system.media'
+  var getApp = React.getApp
+  function P() {
+    this.state = {
+      text: "page3"
+    };
+  }
 
-    P = React.toClass(P, React.Component, {
-        componentDidMount: function () {
-            // eslint-disable-next-line
-            console.log('page3 did mount!');
-        },
-        componentWillMount: function () {
-            // eslint-disable-next-line
-            console.log('page3 will mount!');
-        },
-        componentDidShow: function () {
-            // eslint-disable-next-line
-            console.log('page3 will show!');
-        },
-        onMenuPress: function () {
-            React.api.showModal({
-                title: '提示',
-                content: '该部分仅展示，无具体功能!',
-                showCancel: false
-            });
-        },
-        render: function () {
-            var h = React.createElement;
+  P = React.toClass(P, React.Component, {
+    componentDidMount: function () {
+      // eslint-disable-next-line
+      console.log('page3 did mount!');
 
-            return h('view', {
-                'class': 'page'
-            }, h('text', null, this.state.text));
+    },
+    componentWillMount: function () {
+      // eslint-disable-next-line
+      console.log('page3 will mount!');
+    },
+    componentDidShow: function () {
+      // eslint-disable-next-line
+      console.log('page3 will show!');
+    },
+    onMenuPress: function () {
+      React.api.showActionSheet({
+        itemList: [
+          '分享',
+          'item2',
+          'item3',
+          'item4'
+        ],
+        itemColor: '#ff33ff',
+        success: function (data) {
+          console.log('handling success', data)
+          if (data.index === 0) {
+            share.share({
+              type: 'text/html',
+              data: '<b>bold</b>',
+              success: function (data) {
+                console.log('handling success')
+              },
+              fail: function (data, code) {
+                console.log(`handling fail, code = ${code}`)
+              }
+            })
+          }
         },
-
-        classUid: 'c1440',
-        config: {
-            "backgrounColor": "#FFF",
-            "navigationBarBackgroundColor": "##1b9198",
-            "navigationBarTitleText": "Qunar",
-            "navigationBarTextStyle": "white",
-            tabBar: {
-                list: [
-                    { text: "首页", pagePath: "pages/index/index" },
-                    { text: "页面1", pagePath: "pages/page1/index" },
-                    { text: "页面2", pagePath: "pages/page2/index" }
-                ]
-            }
+        cancel: function () {
+          console.log('handling cancel')
+        },
+        fail: function (data, code) {
+          console.log(`handling fail, code = ${code}`)
         }
-    }, {});
-    P = React.registerPage(P, 'pages/page3/index');
+      })
+    },
+    // 不展示
+    show: function () {
+      console.log('show', notification);
+      notification.show({
+        contentTitle: 'title',
+        contentText: 'eeueueueiiddisowwiieieie'
+        // clickAction: {
+        //   uri: '/index.html?index=1'
+        // }
+      })
+    },
+    showModal: function () {
 
-    export default P;
+      React.api.showModal({
+        title: '我是一个title',
+        content: '内容是啥',
+        cancelText: '取消',
+        confirmText: '确定',
+        success: function (result) {
+          console.log('result', result);
+        }
+      })
+    },
+    showContextMenu: function () {
+      React.api.showActionSheet({
+        itemList: [
+          'item1',
+          'item2',
+          'item3',
+          'item4'
+        ],
+        itemColor: '#ff33ff',
+        success: function (data) {
+          console.log('handling success', data)
+        },
+        cancel: function () {
+          console.log('handling cancel')
+        },
+        fail: function (data, code) {
+          console.log(`handling fail, code = ${code}`)
+        }
+      })
+    },
+    vibrator: function () {
+      console.log('vibrator')
+      React.api.vibrateLong();
+    },
+    share: function () {
+      console.log('share')
+      share.share({
+        type: 'text/html',
+        data: '<b>bold</b>',
+        success: function (data) {
+          console.log('handling success')
+        },
+        fail: function (data, code) {
+          console.log(`handling fail, code = ${code}`)
+        }
+      })
+    },
+    upload: function () {
+      console.log('upload')
+      media.pickImage({
+        success: function (data) {
+          console.log(`handling success: ${data.uri}`)
+          React.api.uploadFile({  
+            url: 'http://yapi.beta.qunar.com/mock/291/aaaaa',
+            files: [
+              {
+                uri: data.uri,
+                name: 'file1',
+                filename: 'network_failed.png'
+              }
+            ],
+            data: [
+              {
+                name: 'param1',
+                value: 'value1'
+              }
+            ],
+            success: function (data) {
+              console.log('handling success')
+            },
+            fail: function (data, code) {
+              console.log(`handling fail, code = ${code}`)
+            }
+          })
+        }
+      })
+
+    },
+    render: function () {
+      var h = React.createElement;
+
+      return h('div', {
+        'class': 'page'
+      }, h('text', null, this.state.text), h('div', {
+        'class': 'content'
+      }, h('div', {
+        onClick: this.showModal,
+        'class': 'item',
+        'data-click-uid': 'e1142',
+        'data-class-uid': 'c1321'
+      }, h('text', null, 'showModal')), h('div', {
+        onClick: this.showContextMenu,
+        'class': 'item',
+        'data-click-uid': 'e1360',
+        'data-class-uid': 'c1321'
+      }, h('text', null, '显示上下文菜单')), h('div', {
+        onClick: this.show,
+        'class': 'item',
+        'data-click-uid': 'e1569',
+        'data-class-uid': 'c1321'
+      }, h('text', null, '通知消息')), h('div', {
+        onClick: this.vibrator,
+        'class': 'item',
+        'data-click-uid': 'e1765',
+        'data-class-uid': 'c1321'
+      }, h('text', null, '震动')), h('div', {
+        onClick: this.share,
+        'class': 'item',
+        'data-click-uid': 'e1958',
+        'data-class-uid': 'c1321'
+      }, h('text', null, '分享')), h('div', {
+        onClick: this.upload,
+        'class': 'item',
+        'data-click-uid': 'e2149',
+        'data-class-uid': 'c1321'
+      }, h('text', null, '文件上传')), h('div', {
+        onClick: this.download,
+        'class': 'item',
+        'data-click-uid': 'e2347',
+        'data-class-uid': 'c1321'
+      }, h('text', null, '文件下载'))));
+    },
+    classUid: 'c1321',
+    config: {
+      "backgrounColor": "#FFF",
+      "navigationBarBackgroundColor": "#39fcf2",
+      "navigationBarTitleText": "Qunar",
+      "navigationBarTextStyle": "white",
+      tabBar: {
+        list: [
+          { text: "首页", pagePath: "pages/index/index" },
+          { text: "页面1", pagePath: "pages/page1/index" },
+          { text: "页面2", pagePath: "pages/page2/index" }
+        ]
+      }
+    }
+  }, {});
+  P = React.registerPage(P, 'pages/page3/index');
+
+  export default P;
 </script>

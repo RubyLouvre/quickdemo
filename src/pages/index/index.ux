@@ -5,8 +5,8 @@
             <image class="top-image" src="https://s.qunarzz.com/wechatapp/home/banner0510-002.png" />
             <div class="mainEntry row">
                 <block for="(index,item) in state.indexPageIcons">
-                    <div class="cell-4">
-                        <div class="mainEntry-item mainEntry-item--{{index}} col">
+                    <div class="cell-4" onclick="routePagePush">
+                        <div class="mainEntry-item mainEntry-item--{{index}} col"  data-url="{{item.url}}">
                             <image class="mainEntry-image" src="{{item.logoSrc}}" />
                             <text class="mainEntry-title">{{item.bizTitle}}</text>
                         </div>
@@ -79,7 +79,10 @@
             }
         }
     }
-
+    .a-href {
+      width: 100%;
+      height: 150px;
+    }
     .col {
         width: 100%;
         display: flex;
@@ -380,6 +383,9 @@
                 showCancel: false
             });
         },
+        routePagePush: function(e) {
+            console.log('e', e)
+        },
         render: function () {
             var h = React.createElement;
 
@@ -484,6 +490,7 @@
             }
         }
     }, {});
+    console.log(1111)
     P = React.registerPage(P, 'pages/index/index');
 
     export default P;

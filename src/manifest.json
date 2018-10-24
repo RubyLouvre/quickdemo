@@ -9,11 +9,13 @@
     { "name": "system.prompt" },
     { "name": "system.router" },
     { "name": "system.shortcut" },
-    { "name": "system.share" }
+    { "name": "system.share" },
+    { "name": "system.notification" },
+    {"name": "system.vibrator"},
+    {"name": "system.request"},
+    {"name": "system.media"}
   ],
-  "permissions": [
-    { "origin": "*" }
-  ],
+  "permissions": [{ "origin": "*" }],
   "config": {
     "logLevel": "debug"
   },
