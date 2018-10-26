@@ -7,21 +7,24 @@
 <script>
 // eslint-disable-next-line
 import React from '../../ReactQuick.js';
-import Animal from '../Animal/index';
-
-function Dog() {}
-
-Dog = React.toClass(Dog, Animal, {
+import { AnimalClass } from '../Animal/index';
+function Dog() {
+    this.state = {}
+    this.props = {}
+}
+console.log(AnimalClass,Object.keys(AnimalClass) ,"xxxx")
+Dog = React.toClass(Dog, AnimalClass, {
     componentWillMount: function() {
         // eslint-disable-next-line
         console.log('Dog componentWillMount');
     },
+    changeAge: function(){},
     render: function() {
         var h = React.createElement;
 
         return h('div', {
             style: React.toStyle({
-                border: '1px solid #333'
+                color: '#33333'
             }, this.props, 'style608')
         }, '名字：', this.state.name, ' 年龄：', this.state.age, ' 岁', h('div', {
             catchClick: this.changeAge.bind(this),

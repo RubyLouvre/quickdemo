@@ -1,5 +1,5 @@
 /**
- * 运行于快应用的React by 司徒正美 Copyright 2018-10-24
+ * 运行于快应用的React by 司徒正美 Copyright 2018-10-25
  * IE9+
  */
 
@@ -1998,7 +1998,6 @@ function registerPage(PageClass, path) {
             transmitData(PageClass, path, instance, this);
         },
         onShow: function onShow() {
-            transmitData(PageClass, path, instance, this);
             var fn = this.reactInstance.componentDidShow;
             fn && fn.call(instance);
         },
@@ -2024,79 +2023,110 @@ function transmitData(pageClass, pagePath, reactInstance, quickInstance) {
     reactInstance.wx = quickInstance;
     quickInstance.reactInstance = reactInstance;
     updateMiniApp(reactInstance);
-    var cc = reactInstance.config || pageClass.config;
-    shareObject.pageConfig = cc;
+    var pageConfig = reactInstance.config || pageClass.config;
+    shareObject.pageConfig = Object.keys(pageConfig).length ? pageConfig : null;
     shareObject.pagePath = pagePath;
     shareObject.page = reactInstance;
-    shareObject.app = quickInstance.$app.$def;
+    shareObject.app = quickInstance.$app.$def || quickInstance.$app._def;
 }
 
 function createRouter(name) {
-    return function (obj) {
-        var router = require('@system.router');
-        var params = {};
-        var uri = obj.url.replace(/\?(.*)/, function (a, b) {
-            b.split('=').forEach(function (k, v) {
-                params[k] = v;
-            });
-            return '';
-        }).replace(/\/index$/, '');
-        router[name]({
-            uri: uri,
-            params: params
-        });
-    };
+  return function (obj) {
+    var router = require('@system.router');
+    var params = {};
+    var uri = obj.url.slice(obj.url.indexOf('/pages') + 1);
+    uri = uri.replace(/\?(.*)/, function (a, b) {
+      b.split('=').forEach(function (k, v) {
+        params[k] = v;
+      });
+      return '';
+    }).replace(/\/index$/, '');
+    router[name]({
+      uri: uri,
+      params: params
+    });
+  };
 }
 var api = {
-    showModal: function showModal(obj) {
-        obj.showCancel = obj.showCancel === false ? false : true;
-        var buttons = [{
-            text: obj.confirmText,
-            color: obj.confirmColor
-        }];
-        if (obj.showCancel) {
-            buttons.push({
-                text: obj.cancelText,
-                color: obj.cancelColor
-            });
-        }
-        obj.buttons = obj.confirmText ? buttons : [];
-        obj.message = obj.content;
-        delete obj.content;
-        var fn = obj['success'];
-        obj['success'] = function (res) {
-            res.confirm = !res.index;
-            fn && fn(res);
-        };
-        var prompt = require('@system.prompt');
-        prompt.showDialog(obj);
-    },
-    showToast: function showToast(obj) {
-        var prompt = require('@system.prompt');
-        obj.message = obj.title;
-        obj.duration = obj.duration / 1000;
-        prompt.showToast(obj);
-    },
-    hideToast: noop,
-    showActionSheet: function showActionSheet(obj) {
-        var prompt = require('@system.prompt');
-        prompt.showContextMenu(obj);
-    },
-    navigateTo: createRouter('push'),
-    redirectTo: createRouter('replace'),
-    navigateBack: createRouter('back'),
-    vibrateLong: function vibrateLong() {
-        var vibrator = require('@system.vibrator');
-        vibrator.vibrate();
-    },
-    vibrateShort: function vibrateShort() {
-        var vibrator = require('@system.vibrator');
-        vibrator.vibrate();
-    },
-    share: function share(obj) {
-        var share = require('@system.share');
-        share.share(obj);
+  showModal: function showModal(obj) {
+    obj.showCancel = obj.showCancel === false ? false : true;
+    var buttons = [{
+      text: obj.confirmText,
+      color: obj.confirmColor
+    }];
+    if (obj.showCancel) {
+      buttons.push({
+        text: obj.cancelText,
+        color: obj.cancelColor
+      });
     }
+    obj.buttons = obj.confirmText ? buttons : [];
+    obj.message = obj.content;
+    delete obj.content;
+    var fn = obj['success'];
+    obj['success'] = function (res) {
+      res.confirm = !res.index;
+      fn && fn(res);
+    };
+    var prompt = require('@system.prompt');
+    prompt.showDialog(obj);
+  },
+  showToast: function showToast(obj) {
+    var prompt = require('@system.prompt');
+    obj.message = obj.title;
+    obj.duration = obj.duration / 1000;
+    prompt.showToast(obj);
+  },
+  hideToast: noop,
+  showActionSheet: function showActionSheet(obj) {
+    var prompt = require('@system.prompt');
+    prompt.showContextMenu(obj);
+  },
+  navigateTo: createRouter('push'),
+  redirectTo: createRouter('replace'),
+  navigateBack: createRouter('back'),
+  vibrateLong: function vibrateLong() {
+    var vibrator = require('@system.vibrator');
+    vibrator.vibrate();
+  },
+  vibrateShort: function vibrateShort() {
+    var vibrator = require('@system.vibrator');
+    vibrator.vibrate();
+  },
+  share: function share(obj) {
+    var share = require('@system.share');
+    share.share(obj);
+  },
+  uploadFile: function uploadFile(obj) {
+    var request = require('@system.request');
+    var data = [];
+    Object.keys(obj.formData).map(function (key) {
+      var value = obj.formData[key];
+      var item = {
+        value: value,
+        name: key
+      };
+      data.push(item);
+    });
+    obj.data = data;
+    delete obj.formData;
+    var files = [{
+      uri: obj.filePath,
+      name: obj.name
+    }];
+    obj.files = files;
+    delete obj.filePath;
+    delete obj.name;
+    request.upload(obj);
+  },
+  downloadFile: function downloadFile(obj) {
+    var request = require('@system.request');
+    request.download(obj);
+  },
+  request: function request(obj) {
+    var fetch = require('@system.fetch');
+    fetch.fetch(obj);
+  }
 };
 
 var win = getWindow();

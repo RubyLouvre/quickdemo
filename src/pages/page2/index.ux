@@ -1,12 +1,12 @@
 <import name="PageWrapper" src="../../components/PageWrapper/index.ux"></import>
-<import name="anu-animal" src="../../components/Animal/index.ux"></import>
+<import name="anu-dog" src="../../components/Dog/index.ux"></import>
 
 <template>
     <div>
         <PageWrapper>
             <div>
                 <text>{{state.text}}</text>
-                <anu-animal></anu-animal>
+                <anu-dog></anu-dog>
             </div>
         </PageWrapper>
     </div>
@@ -51,7 +51,7 @@
               h(React.useComponent, {
                 age: 12,
                 name: "dog",
-                is: "Animal"
+                is: "Dog"
             })
             );
         },
