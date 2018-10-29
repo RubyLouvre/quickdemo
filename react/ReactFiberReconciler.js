@@ -32,7 +32,6 @@ import {
 import { createUpdate, enqueueUpdate } from './ReactUpdateQueue';
 
 
-let didWarnAboutNestedUpdates;
 
 function getContextForSubtree(parentComponent) {
 	if (!parentComponent) {
@@ -56,6 +55,7 @@ function getContextForSubtree(parentComponent) {
 
 	return parentContext;
 }
+
 function scheduleRootUpdate(current, element, expirationTime, callback) {
 	const update = createUpdate(expirationTime);
 	// Caution: React DevTools currently depends on this property
@@ -72,7 +72,7 @@ function scheduleRootUpdate(current, element, expirationTime, callback) {
 	scheduleWork(current, expirationTime);
 	return expirationTime;
 }
-
+// updateContainerAtExpirationTime使用scheduleRootUpdate
 export function updateContainerAtExpirationTime(element, container, parentComponent, expirationTime, callback) {
 	// TODO: If this is a nested container, this won't be the root.
 	const current = container.current;
