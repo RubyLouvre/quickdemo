@@ -1,40 +1,13 @@
 <template>
-    <div style="{{props['style608'] }}">
-        名字：{{state.name}} 年龄：{{state.age}} 岁
-        <div onclick="dispatchEvent" data-tap-uid="e848" data-class-uid="c590">换一个年龄</div>
+    <div>
+       <text style="{{props['style608'] }}"> 名字：{{state.name}} 年龄：{{state.age}} 岁</text>
+        <div class="{{1 ? 'aaa bbb': 'ccc ddd' }}" onclick="dispatchEvent" data-tap-uid="e848" data-class-uid="c590">
+            <text>换一个年龄</text>
+        </div>
     </div>
 </template>
 <script>
-// eslint-disable-next-line
-import React from '../../ReactQuick.js';
-import { AnimalClass } from '../Animal/index';
-function Dog() {
-    this.state = {}
-    this.props = {}
-}
-console.log(AnimalClass,Object.keys(AnimalClass) ,"xxxx")
-Dog = React.toClass(Dog, AnimalClass, {
-    componentWillMount: function() {
-        // eslint-disable-next-line
-        console.log('Dog componentWillMount');
-    },
-    changeAge: function(){},
-    render: function() {
-        var h = React.createElement;
+import Dog, { React } from './index.js';
 
-        return h('div', {
-            style: React.toStyle({
-                color: '#33333'
-            }, this.props, 'style608')
-        }, '名字：', this.state.name, ' 年龄：', this.state.age, ' 岁', h('div', {
-            catchClick: this.changeAge.bind(this),
-            'data-tap-uid': 'e848',
-            'data-class-uid': 'c590'
-        }, '换一个年龄'));
-    },
-    classUid: 'c590'
-}, {});
-Dog = React.registerComponent(Dog, 'Dog');
-
-export default Dog;
+export default  React.registerComponent(Dog, 'Dog');
 </script>
