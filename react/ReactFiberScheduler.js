@@ -1,11 +1,6 @@
 
 
 import {
-	__interactionsRef,
-	__subscriberRef,
-	unstable_wrap as Schedule_tracing_wrap,
-} from 'scheduler/tracing';
-import {
 	unstable_scheduleCallback as Schedule_scheduleCallback,
 	unstable_cancelCallback as Schedule_cancelCallback,
 } from 'scheduler';
@@ -33,21 +28,12 @@ import {
 } from 'shared/ReactSideEffectTags';
 import {
 	ClassComponent,
-	HostComponent,
-	ContextProvider,
-	ForwardRef,
-	FunctionComponent,
-	HostPortal,
 	HostRoot,
-	MemoComponent,
-	SimpleMemoComponent,
+
 } from 'shared/ReactWorkTags';
 
 import invariant from 'shared/invariant';
-import warningWithoutStack from 'shared/warningWithoutStack';
 
-import ReactFiberInstrumentation from './ReactFiberInstrumentation';
-import * as ReactCurrentFiber from './ReactCurrentFiber';
 import {
 	now,
 	scheduleDeferredCallback,
@@ -81,7 +67,12 @@ import {
 	computeAsyncExpiration,
 	computeInteractiveExpiration,
 } from './ReactFiberExpirationTime';
-import { ConcurrentMode, ProfileMode, NoContext } from './ReactTypeOfMode';
+/*
+export const NoWork = 0;
+export const Never = 1;
+export const Sync = MAX_SIGNED_31_BIT_INT;
+*/
+import { ConcurrentMode, NoContext } from './ReactTypeOfMode';
 import {
 	enqueueUpdate,
 	ForceUpdate,
@@ -95,7 +86,6 @@ import {
 } from './ReactFiberContext';
 import { popProvider, resetContextDependences } from './ReactFiberNewContext';
 import { resetHooks } from './ReactFiberHooks';
-import { popHostContext, popHostContainer } from './ReactFiberHostContext';
 import {
 	recordCommitTime,
 	startProfilerTimer,
@@ -306,7 +296,9 @@ function findHighestPriorityRoot() {
 	nextFlushedExpirationTime = highestPriorityWork;
 }
 
-//这个方法是决定将root直接丢进completeRoot，还是先放到renderRoot得到root.finishedWork，再进入completeRoot
+//终于到performWorkOnRoot， 这个方法的最终目的地是 completeRoot，它有两条路，直接进入 completeRoot，还是通过
+//renderRoot到completeRoot。从renderRoot到completeRoot是隔着一大堆方法workLoop， performUnitOfWork，beginWork，
+// completeUnitOfWork， completeWork，这个过程其实是更新虚拟DOM树的过程。而completeRoot之后则是更新真实DOM的过程（如果它的底层是浏览器）
 function performWorkOnRoot(
 	root,
 	expirationTime,
@@ -580,11 +572,11 @@ function performUnitOfWork(workInProgress) {
 	const current = workInProgress.alternate;
 	let next;
 
-	next = beginWork(current, workInProgress, nextRenderExpirationTime);
+	next = beginWork(current, workInProgress, nextRenderExpirationTime);//返回它的第一个孩子
 	workInProgress.memoizedProps = workInProgress.pendingProps;
 
 	if (next === null) {
-		// If this doesn't spawn new work, complete the current work.
+		// 返回它的兄弟与父亲
 		next = completeUnitOfWork(workInProgress);
 	}
 
@@ -1542,6 +1534,8 @@ function requestCurrentTime() {
 }
 
 
+//requestWork里面有一个addRootToSchedule，它会改写firstScheduledRoot， 
+//lastScheduledRoot，并为它们添加nextScheduledRoot属性。
 
 function addRootToSchedule(root, expirationTime) {
 	// Add the root to the schedule.
@@ -1625,7 +1619,6 @@ function flushRoot(rootRoot, expirationTime) {
 }
 
 function finishRendering() {
-
 	if (completedBatches !== null) {
 		const batches = completedBatches;
 		completedBatches = null;
@@ -1641,7 +1634,6 @@ function finishRendering() {
 			}
 		}
 	}
-
 	if (hasUnhandledError) {
 		const error = unhandledError;
 		unhandledError = null;
