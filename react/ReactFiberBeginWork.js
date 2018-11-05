@@ -1,15 +1,5 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @flow
- */
 
 
-
-import checkPropTypes from 'prop-types/checkPropTypes';
 
 import {
     IndeterminateComponent,
@@ -41,19 +31,10 @@ import {
     Ref,
 } from 'shared/ReactSideEffectTags';
 import ReactSharedInternals from 'shared/ReactSharedInternals';
-import {
-    debugRenderPhaseSideEffects,
-    debugRenderPhaseSideEffectsForStrictMode,
-    enableProfilerTimer,
-} from 'shared/ReactFeatureFlags';
+
 import invariant from 'shared/invariant';
 import shallowEqual from 'shared/shallowEqual';
-import getComponentName from 'shared/getComponentName';
-import ReactStrictModeWarnings from './ReactStrictModeWarnings';
-import warning from 'shared/warning';
-import warningWithoutStack from 'shared/warningWithoutStack';
-import * as ReactCurrentFiber from './ReactCurrentFiber';
-import { startWorkTimer, cancelWorkTimer } from './ReactDebugFiberPerf';
+
 
 import {
     mountChildFibers,
@@ -109,6 +90,10 @@ import {
 } from './ReactFiber';
 
 const ReactCurrentOwner = ReactSharedInternals.ReactCurrentOwner;
+
+
+let didWarnAboutGetDerivedStateOnFunctionComponent;
+let didWarnAboutFunctionRefs;
 
 
 
@@ -247,10 +232,7 @@ function updateMemoComponent(
         return child;
     }
     let currentChild = ((current.child)); // This is always exactly one child
-    if (
-        updateExpirationTime === NoWork ||
-        updateExpirationTime > renderExpirationTime
-    ) {
+    if (updateExpirationTime < renderExpirationTime) {
         // This will be the props with resolved defaultProps,
         // unlike current.memoizedProps which will be the unresolved ones.
         const prevProps = currentChild.memoizedProps;
@@ -284,11 +266,7 @@ function updateSimpleMemoComponent(
     updateExpirationTime,
     renderExpirationTime,
 ) {
-    if (
-        current !== null &&
-        (updateExpirationTime === NoWork ||
-            updateExpirationTime > renderExpirationTime)
-    ) {
+    if (current !== null && updateExpirationTime < renderExpirationTime) {
         const prevProps = current.memoizedProps;
         if (
             shallowEqual(prevProps, nextProps) &&
@@ -345,9 +323,7 @@ function updateProfiler(
     workInProgress,
     renderExpirationTime,
 ) {
-    if (enableProfilerTimer) {
-        workInProgress.effectTag |= Update;
-    }
+
     const nextProps = workInProgress.pendingProps;
     const nextChildren = nextProps.children;
     reconcileChildren(
@@ -383,6 +359,7 @@ function updateFunctionComponent(
     let nextChildren;
     prepareToReadContext(workInProgress, renderExpirationTime);
     prepareToUseHooks(current, workInProgress, renderExpirationTime);
+
 
     nextChildren = Component(nextProps, context);
 
@@ -514,9 +491,8 @@ function finishClassComponent(
         // TODO: Warn in a future release.
         nextChildren = null;
 
-        if (enableProfilerTimer) {
-            stopProfilerTimerIfRunning(workInProgress);
-        }
+
+
     } else {
 
         nextChildren = instance.render();
@@ -558,7 +534,7 @@ function finishClassComponent(
 }
 
 function pushHostRootContext(workInProgress) {
-    const root = (workInProgress.stateNodeRoot);
+    const root = (workInProgress.stateNode);
     if (root.pendingContext) {
         pushTopLevelContextObject(
             workInProgress,
@@ -738,12 +714,10 @@ function mountLazyComponent(
     const props = workInProgress.pendingProps;
     // We can't start a User Timing measurement with correct label yet.
     // Cancel and resume right after we know the tag.
-    cancelWorkTimer(workInProgress);
     let Component = readLazyComponentType(elementType);
     // Store the unwrapped component in the type.
     workInProgress.type = Component;
     const resolvedTag = (workInProgress.tag = resolveLazyComponentTag(Component));
-    startWorkTimer(workInProgress);
     const resolvedProps = resolveDefaultProps(Component, props);
     let child;
     switch (resolvedTag) {
@@ -885,10 +859,7 @@ function mountIndeterminateComponent(
     prepareToReadContext(workInProgress, renderExpirationTime);
     prepareToUseHooks(null, workInProgress, renderExpirationTime);
 
-    let value;
-
-
-    value = Component(props, context);
+    let value = Component(props, context);
 
     // React DevTools reads this flag.
     workInProgress.effectTag |= PerformedWork;
@@ -1203,6 +1174,7 @@ function updateContextProvider(
     const newValue = newProps.value;
 
 
+
     pushProvider(workInProgress, newValue);
 
     if (oldProps !== null) {
@@ -1253,8 +1225,10 @@ function updateContextConsumer(
     // a property called "_context", which also gives us the ability to check
     // in DEV mode if this property exists or not and warn if it does not.
 
+
     const newProps = workInProgress.pendingProps;
     const render = newProps.children;
+
 
 
     prepareToReadContext(workInProgress, renderExpirationTime);
@@ -1294,24 +1268,18 @@ function bailoutOnAlreadyFinishedWork(
     workInProgress,
     renderExpirationTime,
 ) {
-    cancelWorkTimer(workInProgress);
+
 
     if (current !== null) {
         // Reuse previous context list
         workInProgress.firstContextDependency = current.firstContextDependency;
     }
 
-    if (enableProfilerTimer) {
-        // Don't update "base" render times for bailouts.
-        stopProfilerTimerIfRunning(workInProgress);
-    }
+
 
     // Check if the children have any pending work.
     const childExpirationTime = workInProgress.childExpirationTime;
-    if (
-        childExpirationTime === NoWork ||
-        childExpirationTime > renderExpirationTime
-    ) {
+    if (childExpirationTime < renderExpirationTime) {
         // The children don't have any work either. We can skip them.
         // TODO: Once we add back resuming, we should check if the children are
         // a work-in-progress set. If so, we need to transfer their effects.
@@ -1337,8 +1305,7 @@ function beginWork(
         if (
             oldProps === newProps &&
             !hasLegacyContextChanged() &&
-            (updateExpirationTime === NoWork ||
-                updateExpirationTime > renderExpirationTime)
+            updateExpirationTime < renderExpirationTime
         ) {
             // This fiber does not have any pending work. Bailout without entering
             // the begin phase. There's still some bookkeeping we that needs to be done
@@ -1370,9 +1337,8 @@ function beginWork(
                     break;
                 }
                 case Profiler:
-                    if (enableProfilerTimer) {
-                        workInProgress.effectTag |= Update;
-                    }
+
+
                     break;
                 case SuspenseComponent: {
                     const state = workInProgress.memoizedState;
@@ -1387,7 +1353,7 @@ function beginWork(
                             primaryChildFragment.childExpirationTime;
                         if (
                             primaryChildExpirationTime !== NoWork &&
-                            primaryChildExpirationTime <= renderExpirationTime
+                            primaryChildExpirationTime >= renderExpirationTime
                         ) {
                             // The primary children have pending work. Use the normal path
                             // to attempt to render the primary children again.
