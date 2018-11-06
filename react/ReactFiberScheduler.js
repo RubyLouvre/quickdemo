@@ -611,7 +611,12 @@ function completeUnitOfWork(workInProgress) {
 			);
 
 			resetChildExpirationTime(workInProgress, nextRenderExpirationTime);
-
+			if (nextUnitOfWork !== null) {
+				// Completing this fiber spawned new work. Work on that next.
+				nextUnitOfWork.firstEffect = nextUnitOfWork.lastEffect = null;
+				return nextUnitOfWork;
+			  }
+		
 
 			if (
 				returnFiber !== null &&
