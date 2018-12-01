@@ -79,18 +79,10 @@ import {
 	createUpdate,
 } from './ReactUpdateQueue';
 import { createCapturedValue } from './ReactCapturedValue';
-import {
-	isContextProvider as isLegacyContextProvider,
-	popTopLevelContextObject as popTopLevelLegacyContextObject,
-	popContext as popLegacyContext,
-} from './ReactFiberContext';
+
 import { popProvider, resetContextDependences } from './ReactFiberNewContext';
 import { resetHooks } from './ReactFiberHooks';
-import {
-	recordCommitTime,
-	startProfilerTimer,
-	stopProfilerTimerIfRunningAndRecordDelta,
-} from './ReactProfilerTimer';
+
 import {
 	checkThatStackIsEmpty,
 	resetStackAfterFatalErrorInDev,
@@ -1495,6 +1487,26 @@ function scheduleCallbackWithExpirationTime(
 
 
 function requestCurrentTime() {
+	/*
+
+调度程序调用RealestCurrnTimeTimes来计算过期时间。
+
+
+
+到期时间是通过加到当前时间（开始时间）来计算的。然而，如果在同一事件中调度了两个更新，那么我们应该将它们的开始时间视为同时的，
+即使实际时钟时间在第一次和第二次调用之间已经提前了。
+
+
+
+换句话说，因为过期时间决定了更新如何批处理，所以我们希望在同一事件中发生的相同优先级的所有更新都接收相同的过期时间。否则我们会被撕裂。
+
+
+我们跟踪两个不同的时间：当前的“渲染”时间和当前的“调度”时间。渲染时间可以随时更新；它只存在以最小化performance.now。
+
+但是，只有当没有未决工作或者我们确实知道我们不在事件中间时，才能更新调度器时间。
+
+
+	*/
 	// requestCurrentTime is called by the scheduler to compute an expiration
 	// time.
 	//
